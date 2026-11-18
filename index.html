@@ -108,9 +108,10 @@ footer{border-top:1px solid var(--line);text-align:center;padding:24px;color:#82
    <div style="display:grid;gap:10px">
     <button class="primary" id="manageAdd">＋ Add a recipe</button>
     <button class="secondary" id="exportBtn">Download to send to your sweet boy 💌</button>
+    <button class="secondary" id="reloadLiveBtn">Use the live website recipes</button>
     <button class="secondary" id="logoutBtn">Log out</button>
    </div>
-   <div class="admin-note" style="margin-top:16px"><b>Sending your recipes 💌</b><br>1. Tap “Download to send to your sweet boy”.<br>2. A ZIP file will download with all your recipes and photos inside.<br>3. Send the ZIP file to Matthew, and he will add your updates to the family website.<br><br>That is all you need to do! ♡</div>
+   <div class="admin-note" style="margin-top:16px"><b>Need to refresh this device?</b><br>Choose “Use the live website recipes” to replace recipes saved on this device with the latest published online copy. This will discard any changes on this device that you have not exported.<br><br><b>Sending your recipes 💌</b><br>1. Tap “Download to send to your sweet boy”.<br>2. A ZIP file will download with all your recipes and photos inside.<br>3. Send the ZIP file to Matthew, and he will add your updates to the family website.<br><br>That is all you need to do! ♡</div>
   </div>
  </div>
 </div>
@@ -124,7 +125,7 @@ footer{border-top:1px solid var(--line);text-align:center;padding:24px;color:#82
   or publish the collection to GitHub Pages. See README.md for details.
 */
 const STARTER_RECIPES = [
- {id:"chicken-bacon-alfredo",name:"Creamy Chicken Bacon Alfredo",category:"Dinner",time:"",description:"A cosy, creamy pasta dish with chicken, bacon and plenty of cheese.",photo:"creamy-chicken-bacon-alfredo.webp",ingredients:["2 cups shredded rotisserie chicken","8 ounces freshly shredded Monterey Jack cheese","3 ounces cream cheese","½ package ranch seasoning","Salt, to taste","Pepper, to taste","Onion powder, to taste","2 cups cooked noodles","¾ cup chopped cooked bacon","2 ounces mild cheddar cheese","1 jar Alfredo sauce"],method:[]}
+ {id:"chicken-bacon-alfredo",name:"Creamy Chicken Bacon Alfredo",category:"Dinner",time:"",description:"A cosy, creamy pasta dish with chicken, bacon and plenty of cheese.",photo:"photos/creamy-chicken-bacon-alfredo.webp",ingredients:["2 cups shredded rotisserie chicken","8 ounces freshly shredded Monterey Jack cheese","3 ounces cream cheese","½ package ranch seasoning","Salt, to taste","Pepper, to taste","Onion powder, to taste","2 cups cooked noodles","¾ cup chopped cooked bacon","2 ounces mild cheddar cheese","1 jar Alfredo sauce"],method:[]}
 ];
 const STORE_KEY="skii-la-recipe-book-v2";
 let recipes=loadRecipes(), activeCategory="All recipes", editingId=null, pendingPhoto="";
@@ -233,6 +234,16 @@ document.getElementById("loginForm").addEventListener("submit",e=>{
  }
 });
 document.getElementById("manageAdd").onclick=()=>showEditor();
+document.getElementById("reloadLiveBtn").onclick=async()=>{
+ if(!confirm("Replace the recipes saved on this device with the latest live website version? Any changes on this device that have not been exported will be lost."))return;
+ try{
+  const response=await fetch("recipes.json?refresh="+Date.now(),{cache:"no-store"});
+  if(!response.ok)throw new Error("Could not load the live recipe book.");
+  const data=await response.json();
+  if(!Array.isArray(data)||!data.every(r=>r.name&&Array.isArray(r.ingredients)))throw new Error("The live recipe file is not valid.");
+  recipes=data;localStorage.setItem(STORE_KEY,JSON.stringify(recipes));activeCategory="All recipes";render();close("manageOverlay");toast("This device is now showing the live website recipes. 💜");
+ }catch(e){toast("Couldn't refresh the live recipes. Please check your connection and try again.");}
+};
 document.getElementById("logoutBtn").onclick=()=>{ownerSession=false;close("manageOverlay");toast("Logged out")};
 document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>close(b.dataset.close));
 document.querySelectorAll(".overlay").forEach(o=>o.addEventListener("click",e=>{if(e.target===o)close(o.id)}));
