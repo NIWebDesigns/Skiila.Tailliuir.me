@@ -143,8 +143,20 @@ function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t
 // Add Skii-la's PayPal / Ko-fi / other support page URL here when it is ready.
 const SUPPORT_URL = "https://revolut.me/skiila42";
 document.getElementById("supportBtn").addEventListener("click",()=>{
- toast("Thank you so much for supporting my little kitchen! ♡");
- if(SUPPORT_URL.trim()) window.open(SUPPORT_URL,"_blank","noopener,noreferrer");
+ if(!SUPPORT_URL.trim()){
+  toast("Thank you so much for supporting my little kitchen! ♡");
+  return;
+ }
+ // Open directly inside the click event so browsers are less likely to block it.
+ const supportWindow = window.open(SUPPORT_URL, "_blank");
+ if(supportWindow){
+  supportWindow.opener = null;
+  toast("Thank you so much for supporting my little kitchen! ♡");
+ }else{
+  // If pop-ups are blocked, take the visitor to Revolut in the same tab.
+  toast("Thank you so much! Opening the support page… ♡");
+  window.location.assign(SUPPORT_URL);
+ }
 });
 function open(id){document.getElementById(id).classList.add("open");document.body.style.overflow="hidden"}
 function close(id){document.getElementById(id).classList.remove("open");if(!document.querySelector(".overlay.open"))document.body.style.overflow=""}
