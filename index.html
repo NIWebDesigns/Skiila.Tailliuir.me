@@ -108,10 +108,11 @@ footer{border-top:1px solid var(--line);text-align:center;padding:24px;color:#82
    <div style="display:grid;gap:10px">
     <button class="primary" id="manageAdd">＋ Add a recipe</button>
     <button class="secondary" id="exportBtn">Download to send to your sweet boy 💌</button>
+    <button class="secondary" id="publishedBtn">I've uploaded the changes</button>
     <button class="secondary" id="reloadLiveBtn">Use the live website recipes</button>
     <button class="secondary" id="logoutBtn">Log out</button>
    </div>
-   <div class="admin-note" style="margin-top:16px"><b>Need to refresh this device?</b><br>Choose “Use the live website recipes” to replace recipes saved on this device with the latest published online copy. This will discard any changes on this device that you have not exported.<br><br><b>Sending your recipes 💌</b><br>1. Tap “Download to send to your sweet boy”.<br>2. A ZIP file will download with all your recipes and photos inside.<br>3. Send the ZIP file to Matthew, and he will add your updates to the family website.<br><br>That is all you need to do! ♡</div>
+   <div class="admin-note" style="margin-top:16px"><b>Need to refresh this device?</b><br>Choose “Use the live website recipes” to replace recipes saved on this device with the latest published online copy. This will discard any changes on this device that you have not exported.<br><br><b>Sending your recipes 💌</b><br>1. Tap “Download to send to your sweet boy”.<br>2. The ZIP contains the full recipes.json plus only new or changed photos. If you replace an old recipe picture, its numbered photo is included so Matthew can replace it too.<br>3. Send the ZIP file to Matthew to upload to the website.<br>4. Once Matthew confirms the upload, tap “I've uploaded the changes”. This tells the website those photos are now published, so they are not included again next time.<br><br>Unchanged photos are left out to keep the ZIP small. ♡</div>
   </div>
  </div>
 </div>
@@ -394,35 +395,46 @@ document.getElementById("reloadLiveBtn").onclick=async()=>{
 document.getElementById("logoutBtn").onclick=()=>{ownerSession=false;close("manageOverlay");toast("Logged out")};
 document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>close(b.dataset.close));
 document.querySelectorAll(".overlay").forEach(o=>o.addEventListener("click",e=>{if(e.target===o)close(o.id)}));
-// Build a standard ZIP in the browser so recipe photos travel with the JSON.
+// Build a small ZIP: the complete recipes.json plus only new/replaced photos.
+// Photos newly chosen in the editor remain data URLs until the owner confirms
+// that Matthew has uploaded the export. That makes them reliably export again
+// if the ZIP is sent more than once before publishing is confirmed.
 function crc32(bytes){let c=~0;for(const b of bytes){c^=b;for(let k=0;k<8;k++)c=(c>>>1)^((c&1)?0xedb88320:0)}return (~c)>>>0}
 function u16(n){return [n&255,(n>>>8)&255]}
 function u32(n){return [n&255,(n>>>8)&255,(n>>>16)&255,(n>>>24)&255]}
 function join(parts){const size=parts.reduce((n,p)=>n+p.length,0),out=new Uint8Array(size);let at=0;for(const p of parts){out.set(p,at);at+=p.length}return out}
 async function makeRecipeZip(){
- const enc=new TextEncoder(), entries=[], exported=recipes.map(r=>({...r}));
+ const enc=new TextEncoder(),entries=[],exported=recipes.map(r=>({...r})),photoChanges=[];
  for(let i=0;i<exported.length;i++){
-  const r=exported[i], photo=r.photo||"";
-  if(!photo) continue;
-  let bytes, mime="", originalName="";
+  const r=exported[i],photo=r.photo||"";
+  if(!photo)continue;
+  // A data URL means this picture was added or replaced on this device and
+  // has not yet been marked as published. Existing photos/ paths are unchanged.
   if(photo.startsWith("data:")){
    const match=photo.match(/^data:([^;,]+);base64,(.*)$/);
-   if(!match) throw new Error(`Could not read the photo for ${r.name}.`);
-   mime=match[1];const binary=atob(match[2]);bytes=new Uint8Array(binary.length);
+   if(!match)throw new Error(`Could not read the photo for ${r.name}.`);
+   const mime=match[1],binary=atob(match[2]),bytes=new Uint8Array(binary.length);
    for(let j=0;j<binary.length;j++)bytes[j]=binary.charCodeAt(j);
-  } else {
-   // Include existing site images too (not just photos uploaded from a phone).
-   const response=await fetch(photo,{cache:"no-store",credentials:"same-origin"});
-   if(!response.ok) throw new Error(`Could not download the photo for ${r.name} (${response.status}).`);
-   const blob=await response.blob();mime=blob.type||"";bytes=new Uint8Array(await blob.arrayBuffer());
-   try{originalName=decodeURIComponent(new URL(photo,document.baseURI).pathname.split("/").pop()||"")}catch{}
+   const ext=mime.includes("png")?"png":mime.includes("webp")?"webp":mime.includes("gif")?"gif":"jpg";
+   const filename=`photos/${String(r.id||i+1)}.${ext}`;
+   entries.push([filename,bytes]);photoChanges.push(filename);r.photo=filename;
   }
-  let ext=(mime.includes("png")?"png":mime.includes("webp")?"webp":mime.includes("gif")?"gif":mime.includes("jpeg")||mime.includes("jpg")?"jpg":"");
-  if(!ext){const m=originalName.match(/\.([a-z0-9]{2,5})$/i);ext=m?m[1].toLowerCase():"jpg";}
-  const filename=`photos/${String(r.id||i+1)}.${ext}`;
-  entries.push([filename,bytes]);r.photo=filename;
  }
  entries.unshift(["recipes.json",enc.encode(JSON.stringify(exported,null,2))]);
+ const instructions=[
+  "SKII-LA'S KITCHEN — WEBSITE UPDATE",
+  "",
+  "1. Upload/replace recipes.json at the website root.",
+  "2. Upload/replace each photo listed below, keeping it inside the photos folder.",
+  "3. Do not delete any other photos. Old unused photos can safely be left in place.",
+  "4. After Matthew confirms the website update, Skii-la can tap ‘I've uploaded the changes’ in the owner area.",
+  "",
+  photoChanges.length?"PHOTOS TO ADD OR REPLACE:":"NO PHOTO CHANGES — only recipes.json needs uploading.",
+  ...photoChanges.map(x=>"UPLOAD / REPLACE: "+x),
+  "",
+  "The recipes.json file always contains the complete recipe collection."
+ ].join("\n");
+ entries.push(["changes.txt",enc.encode(instructions)]);
  let offset=0;const local=[],central=[];
  for(const [name,data] of entries){const n=enc.encode(name),crc=crc32(data),size=data.length;
   const lh=new Uint8Array([...u32(0x04034b50),...u16(20),...u16(0),...u16(0),...u16(0),...u16(0),...u32(crc),...u32(size),...u32(size),...u16(n.length),...u16(0),...n]);local.push(lh,data);
@@ -432,8 +444,14 @@ async function makeRecipeZip(){
  return new Blob([join(local),centralBytes,end],{type:"application/zip"});
 }
 document.getElementById("exportBtn").onclick=async()=>{
- try{const blob=await makeRecipeZip(),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="Skii-las-Recipes-and-Photos.zip";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);toast("Your recipes and photos are together in one ZIP. Send it to Matthew! 💌")}
- catch(e){toast("Sorry, the download didn't work. Please try again.")}
+ try{const blob=await makeRecipeZip(),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="Skii-las-Recipe-Updates.zip";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);toast("Your recipe update ZIP is ready. Send it to Matthew! 💌")}
+ catch(e){console.error(e);toast("Sorry, the download didn't work. Please try again.")}
+};
+document.getElementById("publishedBtn").onclick=()=>{
+ if(!ownerSession)return;
+ if(!confirm("Only tap this after Matthew has uploaded the ZIP to the live website. Mark the new and changed photos as published on this device?"))return;
+ recipes=recipes.map((r,i)=>r.photo&&r.photo.startsWith("data:")?{...r,photo:`photos/${String(r.id||i+1)}.jpg`}:r);
+ if(persist())toast("Lovely! These photo changes are now marked as published. 💜");
 };
 async function initialiseBook(){
  // On a fresh browser, load the published collection from recipes.json.
