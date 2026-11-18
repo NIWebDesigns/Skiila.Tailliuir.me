@@ -66,7 +66,7 @@ footer{border-top:1px solid var(--line);text-align:center;padding:24px;color:#82
    <form id="recipeForm">
     <div class="form-grid">
      <div class="field full"><label for="recipeName">Recipe name *</label><input id="recipeName" required maxlength="90" placeholder="e.g. Creamy Chicken Bacon Alfredo"></div>
-     <div class="field"><label for="recipeCategory">Category</label><select id="recipeCategory"><option>Dinner</option><option>Lunch</option><option>Breakfast</option><option>Dessert</option><option>Baking</option><option>Snacks</option><option>Drinks</option><option>Family favourites</option><option>Other</option></select></div>
+     <div class="field"><label for="recipeCategory">Category *</label><input id="recipeCategory" list="categorySuggestions" required maxlength="40" placeholder="e.g. Dinner, Soups, Pasta"><datalist id="categorySuggestions"></datalist><span class="hint">Type any category you like. Use the same name on another recipe to group them together.</span></div>
      <div class="field"><label for="recipeTime">Preparation / cooking time</label><input id="recipeTime" placeholder="e.g. 35 minutes"></div>
      <div class="field full"><label for="recipeDescription">A little description</label><input id="recipeDescription" maxlength="180" placeholder="A quick note about this dish"></div>
      <div class="field full"><label for="recipePhoto">Recipe photo *</label><input id="recipePhoto" type="file" accept="image/*"><span class="hint">Choose a photo from your phone. The whole picture will be shown without cropping, and large photos will be resized automatically. 📸</span><img id="photoPreview" class="photo-preview" alt="Selected recipe preview"></div>
@@ -137,11 +137,15 @@ function esc(s=""){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt
 function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.style.display="block";clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.style.display="none",2800)}
 function open(id){document.getElementById(id).classList.add("open");document.body.style.overflow="hidden"}
 function close(id){document.getElementById(id).classList.remove("open");if(!document.querySelector(".overlay.open"))document.body.style.overflow=""}
-function categories(){const names=["All recipes",...new Set(recipes.map(r=>r.category||"Other").filter(Boolean))];const el=document.getElementById("categories");el.innerHTML=names.map(n=>`<button class="chip ${activeCategory===n?"active":""}" data-category="${esc(n)}">${esc(n)}</button>`).join("");}
+function categoryNames(){return [...new Map(recipes.map(r=>String(r.category||"Other").trim()).filter(Boolean).map(n=>[n.toLocaleLowerCase(),n])).values()].sort((a,b)=>a.localeCompare(b));}
+function categories(){const names=["All recipes",...categoryNames()];const el=document.getElementById("categories");el.innerHTML=names.map(n=>`<button class="chip ${activeCategory===n?"active":""}" data-category="${esc(n)}">${esc(n)}</button>`).join("");}
+function updateCategorySuggestions(){const list=document.getElementById("categorySuggestions");if(list)list.innerHTML=categoryNames().map(n=>`<option value="${esc(n)}"></option>`).join("");}
+function matchCategory(value){const clean=String(value||"").trim().replace(/\s+/g," ");if(!clean)return "";return categoryNames().find(n=>n.toLocaleLowerCase()===clean.toLocaleLowerCase())||clean;}
 function render(){
  categories();
+ updateCategorySuggestions();
  const q=document.getElementById("search").value.trim().toLowerCase();
- const filtered=recipes.filter(r=>(activeCategory==="All recipes"||r.category===activeCategory)&&[r.name,r.category,r.description,...(r.ingredients||[])].join(" ").toLowerCase().includes(q)).sort((a,b)=>(Number(b.id)||0)-(Number(a.id)||0));
+ const filtered=recipes.filter(r=>(activeCategory==="All recipes"||String(r.category||"Other").trim().toLocaleLowerCase()===activeCategory.toLocaleLowerCase())&&[r.name,r.category,r.description,...(r.ingredients||[])].join(" ").toLowerCase().includes(q)).sort((a,b)=>(Number(b.id)||0)-(Number(a.id)||0));
  document.getElementById("sectionTitle").textContent=activeCategory;
  document.getElementById("recipeCount").textContent=`${filtered.length} ${filtered.length===1?"recipe":"recipes"}`;
  const grid=document.getElementById("recipeGrid");
@@ -184,7 +188,7 @@ document.getElementById("recipePhoto").addEventListener("change",e=>{
 });
 document.getElementById("recipeForm").addEventListener("submit",e=>{
  e.preventDefault();if(!ownerSession){toast("Please log in to edit recipes.");return}const name=document.getElementById("recipeName").value.trim();const old=recipes.find(r=>r.id===editingId);if(!pendingPhoto){toast("Please add a picture for this recipe.");return}
- const item={id:editingId||String(Math.max(0,...recipes.map(r=>Number(r.id)||0))+1),name,category:document.getElementById("recipeCategory").value,time:document.getElementById("recipeTime").value.trim(),description:document.getElementById("recipeDescription").value.trim(),photo:pendingPhoto,ingredients:document.getElementById("recipeIngredients").value.split("\n").map(x=>x.trim()).filter(Boolean),method:document.getElementById("recipeMethod").value.split("\n").map(x=>x.trim()).filter(Boolean)};
+ const category=matchCategory(document.getElementById("recipeCategory").value);if(!category){toast("Please type a category, like Dinner or Soups.");document.getElementById("recipeCategory").focus();return}const item={id:editingId||String(Math.max(0,...recipes.map(r=>Number(r.id)||0))+1),name,category,time:document.getElementById("recipeTime").value.trim(),description:document.getElementById("recipeDescription").value.trim(),photo:pendingPhoto,ingredients:document.getElementById("recipeIngredients").value.split("\n").map(x=>x.trim()).filter(Boolean),method:document.getElementById("recipeMethod").value.split("\n").map(x=>x.trim()).filter(Boolean)};
  if(old)recipes=recipes.map(r=>r.id===editingId?item:r);else recipes.unshift(item);
  if(persist()){close("editorOverlay");render();toast(old?"Recipe updated":"Recipe added to your book")}
 });
