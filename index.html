@@ -141,7 +141,7 @@ window.addEventListener("beforeunload",e=>{
 function esc(s=""){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.style.display="block";clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.style.display="none",2800)}
 // Add Skii-la's PayPal / Ko-fi / other support page URL here when it is ready.
-const SUPPORT_URL = "";
+const SUPPORT_URL = "https://revolut.me/skiila42";
 document.getElementById("supportBtn").addEventListener("click",()=>{
  toast("Thank you so much for supporting my little kitchen! ♡");
  if(SUPPORT_URL.trim()) window.open(SUPPORT_URL,"_blank","noopener,noreferrer");
