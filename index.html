@@ -28,7 +28,8 @@ main{max-width:1180px;margin:0 auto;padding:32px 22px 76px}
 footer{border-top:1px solid var(--line);text-align:center;padding:24px;color:#82798b;font-size:12px}
 .overlay{position:fixed;inset:0;background:#20152dcc;display:none;align-items:flex-start;justify-content:center;padding:22px;overflow:auto;z-index:20}.overlay.open{display:flex}.dialog{width:min(760px,100%);background:white;border-radius:22px;box-shadow:0 24px 90px #170e2280;margin:auto;overflow:hidden}.dialog-head{padding:22px 25px;background:#f7f2fa;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:14px;align-items:center}.dialog-head h2{font:26px Georgia,serif;margin:0;color:#3d2b50}.close{border:0;background:white;border-radius:50%;width:36px;height:36px;font-size:21px;color:#5c4d68}.dialog-content{padding:24px 25px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:12px;font-weight:750;color:#554760}.field input,.field textarea,.field select{width:100%;border:1px solid var(--line);border-radius:10px;padding:11px 12px;background:#fff;color:var(--ink)}.field textarea{min-height:110px;resize:vertical}.hint{font-size:11px;color:#877d8f}.photo-preview{width:100%;max-height:280px;height:auto;min-height:120px;border-radius:12px;background:#f6f0fa;object-fit:contain;display:none}.form-actions{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-top:20px}.secondary,.danger{border:1px solid var(--line);background:white;color:#554760;border-radius:10px;padding:10px 14px;font-weight:650}.danger{color:#a33e55;border-color:#efd9df}.primary{padding:11px 18px}
 .detail{width:min(820px,100%)}.detail-photo{width:100%;max-height:70vh;object-fit:contain;background:#f1eaf7;display:block}.detail-content{padding:26px}.detail-content h2{font:500 34px Georgia,serif;color:#39274b;margin:7px 0}.detail-description{color:var(--muted);margin:0 0 20px}.detail-columns{display:grid;grid-template-columns:.9fr 1.1fr;gap:26px}.detail-columns h3{font:22px Georgia,serif;color:#60427c;margin:0 0 10px}.detail-columns ul,.detail-columns ol{padding-left:20px;margin:0}.detail-columns li{padding:4px 0}.detail-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
-.admin-note{background:#fff8e9;border:1px solid #f1dfb8;color:#765d2d;border-radius:12px;padding:12px 14px;font-size:12px;margin-bottom:18px}
+.admin-note{background:#fff8e9;border:1px solid #f1dfb8;color:#765d2d;border-radius:12px;padding:12px 14px;font-size:13px;margin-bottom:18px}
+.owner-steps{display:grid;gap:13px}.owner-step{display:grid;grid-template-columns:38px minmax(0,1fr);gap:12px;align-items:start;padding:14px;border:1px solid var(--line);border-radius:15px;background:#fff}.step-number{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--lav);color:var(--purple);font-weight:800;font-size:16px}.owner-step h3{margin:1px 0 3px;font:600 17px Georgia,serif;color:#39274b}.owner-step p{margin:0 0 10px;color:var(--muted);font-size:13px;line-height:1.45}.owner-step button{width:100%;min-height:44px}.owner-help{margin-top:15px;padding:13px 14px;background:#f7f2fa;border-radius:13px;color:#554760;font-size:13px}.owner-footer{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.owner-footer button{flex:1;min-height:42px}
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#30233c;color:white;padding:11px 16px;border-radius:999px;font-size:13px;z-index:40;display:none;box-shadow:var(--shadow)}
 @media(max-width:850px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.recipe-image{height:175px}}
 @media(max-width:600px){.site-header{padding:18px 18px 34px}.topbar{align-items:flex-start}.brand-name{font-size:15px}.top-actions button{padding:8px 10px;font-size:12px}.hero{margin-top:36px}.hero h1{font-size:43px}.hero p{font-size:14px}main{padding:24px 16px 55px}.toolbar{grid-template-columns:1fr}.add-btn{width:100%}.grid{grid-template-columns:1fr;gap:14px}.recipe-card{display:grid;grid-template-columns:116px minmax(0,1fr);min-height:142px}.recipe-image{height:100%;min-height:142px}.recipe-body{padding:13px}.recipe-card h3{font-size:19px;margin:7px 0 5px}.recipe-desc{font-size:12px;min-height:0;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.recipe-meta{font-size:9px}.card-bottom{padding-top:7px}.card-bottom small{font-size:10px}.section-head h2{font-size:25px}.overlay{padding:10px}.dialog{border-radius:16px}.dialog-content{padding:18px}.dialog-head{padding:17px 18px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.detail-columns{grid-template-columns:1fr;gap:20px}.detail-content{padding:20px}.detail-content h2{font-size:29px}.detail-photo{max-height:230px}.form-actions{align-items:stretch;flex-direction:column-reverse}.form-actions>div{display:flex;gap:8px}.form-actions button{flex:1}}
@@ -102,17 +103,16 @@ footer{border-top:1px solid var(--line);text-align:center;padding:24px;color:#82
 
 <div class="overlay" id="manageOverlay" role="dialog" aria-modal="true" aria-labelledby="manageTitle">
  <div class="dialog">
-  <div class="dialog-head"><h2 id="manageTitle">Your recipe book</h2><button class="close" data-close="manageOverlay" aria-label="Close">×</button></div>
+  <div class="dialog-head"><h2 id="manageTitle">Your recipe book 💜</h2><button class="close" data-close="manageOverlay" aria-label="Close">×</button></div>
   <div class="dialog-content">
-   <p style="margin-top:0;color:var(--muted)">Welcome back, Skii-la! Add your favourite recipes or make a little update, then send your latest recipe book to your sweet boy, Matthew. 💕</p>
-   <div style="display:grid;gap:10px">
-    <button class="primary" id="manageAdd">＋ Add a recipe</button>
-    <button class="secondary" id="exportBtn">Download to send to your sweet boy 💌</button>
-    <button class="secondary" id="publishedBtn">I've uploaded the changes</button>
-    <button class="secondary" id="reloadLiveBtn">Use the live website recipes</button>
-    <button class="secondary" id="logoutBtn">Log out</button>
+   <p style="margin-top:0;color:var(--muted)">Hi Skii-la! Follow these four steps each time you want to update the family recipe book. Matthew will take care of putting your changes on the website. 💕</p>
+   <div class="owner-steps">
+    <section class="owner-step"><span class="step-number">1</span><div><h3>Start fresh with the live website</h3><p>Tap this first to clear the old saved copy on this phone and load the recipes that are currently online. <b>Only do this before you start editing.</b></p><button class="primary" id="reloadLiveBtn">Step 1 — Load the current website</button></div></section>
+    <section class="owner-step"><span class="step-number">2</span><div><h3>Add recipes or make your changes</h3><p>Tap to add a new recipe. To change one, close this panel, open the recipe and tap “Edit recipe”.</p><button class="primary" id="manageAdd">＋ Step 2 — Add a recipe</button></div></section>
+    <section class="owner-step"><span class="step-number">3</span><div><h3>Send your website update to your sweet boy 💜</h3><p>First download your update, then send the ZIP file to Matthew in your usual messages. You do not need to open the file.</p><button class="primary" id="exportBtn">Step 3 — Download my update 💌</button></div></section>
+    <section class="owner-step"><span class="step-number">4</span><div><h3>Clear your changes and go back to the live website</h3><p>After Matthew tells you the update is online, tap this button. It clears the saved editing copy on this phone and loads the updated website again. <b>Do not tap until Matthew confirms.</b></p><button class="primary" id="publishedBtn">Step 4 — Clear my updates and reload the website ✓</button></div></section>
    </div>
-   <div class="admin-note" style="margin-top:16px"><b>Need to refresh this device?</b><br>Choose “Use the live website recipes” to replace recipes saved on this device with the latest published online copy. This will discard any changes on this device that you have not exported.<br><br><b>Sending your recipes 💌</b><br>1. Tap “Download to send to your sweet boy”.<br>2. The ZIP contains the full recipes.json plus only new or changed photos. If you replace an old recipe picture, its numbered photo is included so Matthew can replace it too.<br>3. Send the ZIP file to Matthew to upload to the website.<br>4. Once Matthew confirms the upload, tap “I've uploaded the changes”. This tells the website those photos are now published, so they are not included again next time.<br><br>Unchanged photos are left out to keep the ZIP small. ♡</div>
+   <div class="owner-footer"><button class="secondary" id="logoutBtn">Log out</button></div>
   </div>
  </div>
 </div>
@@ -122,7 +122,7 @@ footer{border-top:1px solid var(--line);text-align:center;padding:24px;color:#82
 /*
   SKII-LA'S RECIPE BOOK
   Recipe content is stored in recipes.json and loaded at runtime.
-  Browser storage is local to this device. See README.md for export/publishing details.
+  Browser storage is local to this device. Steps 1 and 4 reload the published recipes.json.
 */
 // Recipe content lives in recipes.json. Keep this file limited to website code.
 const STORE_KEY="skii-la-recipe-book-v4";
@@ -232,16 +232,26 @@ document.getElementById("loginForm").addEventListener("submit",e=>{
  }
 });
 document.getElementById("manageAdd").onclick=()=>showEditor();
-document.getElementById("reloadLiveBtn").onclick=async()=>{
- if(!confirm("Replace the recipes saved on this device with the latest live website version? Any changes on this device that have not been exported will be lost."))return;
+async function clearLocalAndLoadLive(message){
+ if(!ownerSession)return;
+ if(!confirm(message))return;
  try{
   const response=await fetch("recipes.json?refresh="+Date.now(),{cache:"no-store"});
-  if(!response.ok)throw new Error("Could not load the live recipe book.");
+  if(!response.ok)throw new Error("Could not load live recipes");
   const data=await response.json();
-  if(!Array.isArray(data)||!data.every(r=>r.name&&Array.isArray(r.ingredients)))throw new Error("The live recipe file is not valid.");
-  recipes=data;localStorage.setItem(STORE_KEY,JSON.stringify(recipes));activeCategory="All recipes";render();close("manageOverlay");toast("This device is now showing the live website recipes. 💜");
- }catch(e){toast("Couldn't refresh the live recipes. Please check your connection and try again.");}
-};
+  if(!Array.isArray(data)||!data.every(r=>r.name&&Array.isArray(r.ingredients)))throw new Error("Invalid live recipe file");
+  // Replace this device's saved working copy with exactly what is currently online.
+  localStorage.setItem(STORE_KEY,JSON.stringify(data));
+  recipes=data;
+  activeCategory="All recipes";
+  document.getElementById("search").value="";
+  render();
+  close("manageOverlay");
+  toast("All done! This phone is now showing the live website recipes. 💜");
+ }catch(e){console.error(e);toast("Couldn't load the live website. Your saved recipes have not been cleared. Please try again.");}
+}
+document.getElementById("reloadLiveBtn").onclick=()=>clearLocalAndLoadLive("This clears the saved copy on this phone and replaces it with the recipes currently online. Only do this before editing, or after Matthew confirms your update is live. Any changes not yet sent to Matthew will be lost. Continue?");
+document.getElementById("publishedBtn").onclick=()=>clearLocalAndLoadLive("Has Matthew confirmed that your update is online? This will clear your local editing copy and reload the live recipes. Do not continue unless he has confirmed.");
 document.getElementById("logoutBtn").onclick=()=>{ownerSession=false;close("manageOverlay");toast("Logged out")};
 document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>close(b.dataset.close));
 document.querySelectorAll(".overlay").forEach(o=>o.addEventListener("click",e=>{if(e.target===o)close(o.id)}));
@@ -297,12 +307,7 @@ document.getElementById("exportBtn").onclick=async()=>{
  try{const blob=await makeRecipeZip(),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="Skii-las-Recipe-Updates.zip";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);toast("Your recipe update ZIP is ready. Send it to Matthew! 💌")}
  catch(e){console.error(e);toast("Sorry, the download didn't work. Please try again.")}
 };
-document.getElementById("publishedBtn").onclick=()=>{
- if(!ownerSession)return;
- if(!confirm("Only tap this after Matthew has uploaded the ZIP to the live website. Mark the new and changed photos as published on this device?"))return;
- recipes=recipes.map((r,i)=>r.photo&&r.photo.startsWith("data:")?{...r,photo:`photos/${String(r.id||i+1)}.jpg`}:r);
- if(persist())toast("Lovely! These photo changes are now marked as published. 💜");
-};
+/* Step 4 returns this phone to the live website using clearLocalAndLoadLive above. */
 async function initialiseBook(){
  // Recipe content is loaded from recipes.json on a fresh browser.
  // A locally edited book takes priority until the owner chooses to refresh it.
