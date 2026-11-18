@@ -19,6 +19,7 @@ button,input,textarea,select{font:inherit}button{cursor:pointer}
 .brand{display:flex;align-items:center;gap:12px;color:white;text-decoration:none}.brand-mark{width:42px;height:42px;border:1px solid #ffffff66;border-radius:14px;display:grid;place-items:center;font-family:Georgia,serif;font-size:25px;background:#ffffff12}.brand-name{font:600 17px Georgia,serif;letter-spacing:.01em}.brand-sub{display:block;font:11px/1.4 inherit;opacity:.75;letter-spacing:.12em;text-transform:uppercase}
 .top-actions{display:flex;gap:10px;align-items:center}.top-actions button{border:1px solid #ffffff66;background:#ffffff12;color:white;padding:9px 14px;border-radius:999px;font-size:13px}.top-actions button:hover{background:#ffffff24}
 .hero{max-width:1180px;margin:48px auto 0}.kicker{font-size:11px;text-transform:uppercase;letter-spacing:.2em;color:#e3d4ef;font-weight:700}.hero h1{font:500 clamp(38px,6vw,66px)/1.04 Georgia,serif;letter-spacing:-.035em;margin:13px 0 12px}.hero p{max-width:570px;margin:0;color:#eee5f4;font-size:16px}
+.support-note{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:13px;color:#e9dff0;font-size:12px;line-height:1.4}.support-btn{border:1px solid #ffffff80;background:#ffffff18;color:#fff;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:650;line-height:1.3}.support-btn:hover{background:#ffffff30}@media(max-width:600px){.support-note{font-size:11px;gap:7px}.support-btn{font-size:10px;padding:5px 9px}}
 main{max-width:1180px;margin:0 auto;padding:32px 22px 76px}
 .toolbar{display:grid;grid-template-columns:minmax(220px,1fr) auto;gap:14px;align-items:center;margin-bottom:18px}
 .search-wrap{position:relative}.search-wrap span{position:absolute;left:16px;top:11px;color:#8c8294}.search{width:100%;border:1px solid var(--line);border-radius:13px;background:white;padding:12px 15px 12px 43px;outline:none;box-shadow:0 3px 12px #30203d08}.search:focus,input:focus,textarea:focus,select:focus{border-color:#987bb2;box-shadow:0 0 0 3px #987bb21f;outline:none}
@@ -50,6 +51,7 @@ footer{border-top:1px solid var(--line);text-align:center;padding:24px;color:#82
     <div class="kicker">Good food · Lovely memories ♡</div>
     <h1>Recipes made<br>with love. ♡</h1>
     <p>A little collection of my favourite dishes, made with love and shared with family and friends. Find something delicious, make yourself at home, and enjoy! 💕</p>
+    <div class="support-note">Enjoyed a recipe? If you'd like to support my little kitchen, I'd be so grateful. ♡ <button type="button" id="supportBtn" class="support-btn">💕 Support my kitchen</button></div>
   </div>
 </header>
 
@@ -138,6 +140,12 @@ window.addEventListener("beforeunload",e=>{
 });
 function esc(s=""){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.style.display="block";clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.style.display="none",2800)}
+// Add Skii-la's PayPal / Ko-fi / other support page URL here when it is ready.
+const SUPPORT_URL = "";
+document.getElementById("supportBtn").addEventListener("click",()=>{
+ toast("Thank you so much for supporting my little kitchen! ♡");
+ if(SUPPORT_URL.trim()) window.open(SUPPORT_URL,"_blank","noopener,noreferrer");
+});
 function open(id){document.getElementById(id).classList.add("open");document.body.style.overflow="hidden"}
 function close(id){document.getElementById(id).classList.remove("open");if(!document.querySelector(".overlay.open"))document.body.style.overflow=""}
 function categoryNames(){return [...new Map(recipes.map(r=>String(r.category||"Other").trim()).filter(Boolean).map(n=>[n.toLocaleLowerCase(),n])).values()].sort((a,b)=>a.localeCompare(b));}
