@@ -1,1 +1,239 @@
-hi
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#4d326d">
+<meta name="description" content="A collection of much-loved recipes from Skyla's kitchen, shared with family and friends.">
+<title>Skyla's Kitchen | Family Recipe Book</title>
+<style>
+:root{--ink:#282331;--muted:#756d7e;--purple:#563779;--purple2:#76539a;--lav:#f1eaf7;--lav2:#faf7fc;--line:#e9e1ef;--white:#fff;--rose:#f8edf3;--shadow:0 12px 36px rgba(50,31,68,.08);--radius:20px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#fcfbfd;color:var(--ink);font:16px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input,textarea,select{font:inherit}button{cursor:pointer}
+.site-header{background:linear-gradient(125deg,#38234f,#5b3c78 58%,#8565a0);color:white;padding:24px max(22px,calc((100% - 1180px)/2)) 42px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;max-width:1180px;margin:auto}
+.brand{display:flex;align-items:center;gap:12px;color:white;text-decoration:none}.brand-mark{width:42px;height:42px;border:1px solid #ffffff66;border-radius:14px;display:grid;place-items:center;font-family:Georgia,serif;font-size:25px;background:#ffffff12}.brand-name{font:600 17px Georgia,serif;letter-spacing:.01em}.brand-sub{display:block;font:11px/1.4 inherit;opacity:.75;letter-spacing:.12em;text-transform:uppercase}
+.top-actions{display:flex;gap:10px;align-items:center}.top-actions button{border:1px solid #ffffff66;background:#ffffff12;color:white;padding:9px 14px;border-radius:999px;font-size:13px}.top-actions button:hover{background:#ffffff24}
+.hero{max-width:1180px;margin:48px auto 0}.kicker{font-size:11px;text-transform:uppercase;letter-spacing:.2em;color:#e3d4ef;font-weight:700}.hero h1{font:500 clamp(38px,6vw,66px)/1.04 Georgia,serif;letter-spacing:-.035em;margin:13px 0 12px}.hero p{max-width:570px;margin:0;color:#eee5f4;font-size:16px}
+main{max-width:1180px;margin:0 auto;padding:32px 22px 76px}
+.toolbar{display:grid;grid-template-columns:minmax(220px,1fr) auto;gap:14px;align-items:center;margin-bottom:18px}
+.search-wrap{position:relative}.search-wrap span{position:absolute;left:16px;top:11px;color:#8c8294}.search{width:100%;border:1px solid var(--line);border-radius:13px;background:white;padding:12px 15px 12px 43px;outline:none;box-shadow:0 3px 12px #30203d08}.search:focus,input:focus,textarea:focus,select:focus{border-color:#987bb2;box-shadow:0 0 0 3px #987bb21f;outline:none}
+.primary{border:0;background:var(--purple);color:white;padding:12px 17px;border-radius:12px;font-weight:650;box-shadow:0 5px 14px #56377924}.primary:hover{background:#43285f}
+.category-row{display:flex;gap:8px;overflow-x:auto;padding:2px 0 15px;margin-bottom:18px;scrollbar-width:thin}.chip{border:1px solid var(--line);background:white;color:#62586c;border-radius:999px;padding:8px 14px;white-space:nowrap;font-size:13px}.chip.active{background:var(--lav);border-color:#d8c8e6;color:var(--purple);font-weight:700}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:22px 0 16px}.section-head h2{font:500 28px Georgia,serif;margin:0;color:#39274b}.count{font-size:13px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.recipe-card{border:1px solid var(--line);border-radius:18px;background:white;overflow:hidden;box-shadow:0 4px 18px #35234408;transition:transform .18s,box-shadow .18s;min-width:0}.recipe-card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.recipe-image{height:190px;background:linear-gradient(135deg,#eee5f5,#f8edf3);display:grid;place-items:center;overflow:hidden;color:#9a82ad;font:48px Georgia,serif}.recipe-image img{width:100%;height:100%;object-fit:cover;display:block}.recipe-body{padding:17px 18px 18px}.recipe-meta{display:flex;justify-content:space-between;gap:10px;align-items:center;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.09em}.recipe-category{color:#73548d;font-weight:750}.recipe-card h3{font:600 22px/1.2 Georgia,serif;margin:10px 0 7px;color:#382747}.recipe-desc{color:var(--muted);font-size:13px;min-height:40px;margin:0 0 15px}.card-bottom{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #f0ebf3;padding-top:12px}.card-bottom small{color:#807789}.text-btn{border:0;background:none;color:var(--purple);font-weight:700;padding:5px 0}
+.empty{border:1px dashed #d9cce3;border-radius:18px;padding:42px 20px;text-align:center;color:var(--muted);background:#fff}.empty strong{display:block;color:#49345e;font:24px Georgia,serif;margin-bottom:5px}
+footer{border-top:1px solid var(--line);text-align:center;padding:24px;color:#82798b;font-size:12px}
+.overlay{position:fixed;inset:0;background:#20152dcc;display:none;align-items:flex-start;justify-content:center;padding:22px;overflow:auto;z-index:20}.overlay.open{display:flex}.dialog{width:min(760px,100%);background:white;border-radius:22px;box-shadow:0 24px 90px #170e2280;margin:auto;overflow:hidden}.dialog-head{padding:22px 25px;background:#f7f2fa;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:14px;align-items:center}.dialog-head h2{font:26px Georgia,serif;margin:0;color:#3d2b50}.close{border:0;background:white;border-radius:50%;width:36px;height:36px;font-size:21px;color:#5c4d68}.dialog-content{padding:24px 25px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:12px;font-weight:750;color:#554760}.field input,.field textarea,.field select{width:100%;border:1px solid var(--line);border-radius:10px;padding:11px 12px;background:#fff;color:var(--ink)}.field textarea{min-height:110px;resize:vertical}.hint{font-size:11px;color:#877d8f}.photo-preview{width:100%;height:150px;border-radius:12px;background:#f6f0fa;object-fit:cover;display:none}.form-actions{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-top:20px}.secondary,.danger{border:1px solid var(--line);background:white;color:#554760;border-radius:10px;padding:10px 14px;font-weight:650}.danger{color:#a33e55;border-color:#efd9df}.primary{padding:11px 18px}
+.detail{width:min(820px,100%)}.detail-photo{width:100%;max-height:340px;object-fit:cover;background:#f1eaf7;display:block}.detail-content{padding:26px}.detail-content h2{font:500 34px Georgia,serif;color:#39274b;margin:7px 0}.detail-description{color:var(--muted);margin:0 0 20px}.detail-columns{display:grid;grid-template-columns:.9fr 1.1fr;gap:26px}.detail-columns h3{font:22px Georgia,serif;color:#60427c;margin:0 0 10px}.detail-columns ul,.detail-columns ol{padding-left:20px;margin:0}.detail-columns li{padding:4px 0}.detail-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.admin-note{background:#fff8e9;border:1px solid #f1dfb8;color:#765d2d;border-radius:12px;padding:12px 14px;font-size:12px;margin-bottom:18px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#30233c;color:white;padding:11px 16px;border-radius:999px;font-size:13px;z-index:40;display:none;box-shadow:var(--shadow)}
+@media(max-width:850px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.recipe-image{height:175px}}
+@media(max-width:600px){.site-header{padding:18px 18px 34px}.topbar{align-items:flex-start}.brand-name{font-size:15px}.top-actions button{padding:8px 10px;font-size:12px}.hero{margin-top:36px}.hero h1{font-size:43px}.hero p{font-size:14px}main{padding:24px 16px 55px}.toolbar{grid-template-columns:1fr}.add-btn{width:100%}.grid{grid-template-columns:1fr;gap:14px}.recipe-card{display:grid;grid-template-columns:116px minmax(0,1fr);min-height:142px}.recipe-image{height:100%;min-height:142px}.recipe-body{padding:13px}.recipe-card h3{font-size:19px;margin:7px 0 5px}.recipe-desc{font-size:12px;min-height:0;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.recipe-meta{font-size:9px}.card-bottom{padding-top:7px}.card-bottom small{font-size:10px}.section-head h2{font-size:25px}.overlay{padding:10px}.dialog{border-radius:16px}.dialog-content{padding:18px}.dialog-head{padding:17px 18px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.detail-columns{grid-template-columns:1fr;gap:20px}.detail-content{padding:20px}.detail-content h2{font-size:29px}.detail-photo{max-height:230px}.form-actions{align-items:stretch;flex-direction:column-reverse}.form-actions>div{display:flex;gap:8px}.form-actions button{flex:1}}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="topbar">
+    <a class="brand" href="#" aria-label="Skyla's Kitchen home"><span class="brand-mark">S</span><span class="brand-name">Skyla's Kitchen<span class="brand-sub">The family recipe book</span></span></a>
+    <div class="top-actions"><button id="manageBtn" type="button">Owner login</button></div>
+  </div>
+  <div class="hero">
+    <div class="kicker">Good food · Lovely memories</div>
+    <h1>Recipes worth<br>sharing.</h1>
+    <p>A little collection of the dishes I love making. Browse, find a favourite, and share something delicious with the people you love.</p>
+  </div>
+</header>
+
+<main>
+  <div class="toolbar">
+    <div class="search-wrap"><span>⌕</span><input id="search" class="search" type="search" placeholder="Search recipes or ingredients…" aria-label="Search recipes"></div>
+  </div>
+  <nav class="category-row" id="categories" aria-label="Recipe categories"></nav>
+  <div class="section-head"><h2 id="sectionTitle">All recipes</h2><span class="count" id="recipeCount"></span></div>
+  <div id="recipeGrid" class="grid"></div>
+</main>
+<footer>Made with love in Skyla's kitchen <span aria-hidden="true">♡</span> · A family recipe collection</footer>
+
+<div class="overlay" id="editorOverlay" role="dialog" aria-modal="true" aria-labelledby="editorTitle">
+ <div class="dialog">
+  <div class="dialog-head"><h2 id="editorTitle">Add a recipe</h2><button class="close" data-close="editorOverlay" aria-label="Close">×</button></div>
+  <div class="dialog-content">
+   <div class="admin-note">Owner area: only Skyla should use these tools. Recipes are saved in this browser. Export the recipe book to back it up and publish changes to the family website.</div>
+   <form id="recipeForm">
+    <div class="form-grid">
+     <div class="field full"><label for="recipeName">Recipe name *</label><input id="recipeName" required maxlength="90" placeholder="e.g. Creamy Chicken Bacon Alfredo"></div>
+     <div class="field"><label for="recipeCategory">Category</label><select id="recipeCategory"><option>Dinner</option><option>Lunch</option><option>Breakfast</option><option>Dessert</option><option>Baking</option><option>Snacks</option><option>Drinks</option><option>Family favourites</option><option>Other</option></select></div>
+     <div class="field"><label for="recipeTime">Prep / cook time</label><input id="recipeTime" placeholder="e.g. 35 minutes"></div>
+     <div class="field full"><label for="recipeDescription">Short description</label><input id="recipeDescription" maxlength="180" placeholder="A quick note about this dish"></div>
+     <div class="field full"><label for="recipePhoto">Recipe picture *</label><input id="recipePhoto" type="file" accept="image/*"><span class="hint">Add a picture for every recipe. Choose one from your phone or computer (under 3 MB).</span><img id="photoPreview" class="photo-preview" alt="Selected recipe preview"></div>
+     <div class="field full"><label for="recipeIngredients">Ingredients *</label><textarea id="recipeIngredients" required placeholder="One ingredient per line&#10;2 cups flour&#10;1 tsp vanilla"></textarea></div>
+     <div class="field full"><label for="recipeMethod">Method / directions</label><textarea id="recipeMethod" placeholder="Write the steps in order, one step per line"></textarea></div>
+    </div>
+    <div class="form-actions"><div><button type="button" class="danger" id="deleteBtn" style="display:none">Delete recipe</button><button type="button" class="secondary" data-close="editorOverlay">Cancel</button></div><button class="primary" type="submit">Save recipe</button></div>
+   </form>
+  </div>
+ </div>
+</div>
+
+<div class="overlay" id="detailOverlay" role="dialog" aria-modal="true" aria-label="Recipe details">
+ <div class="dialog detail">
+  <div class="dialog-head"><span class="kicker" style="color:#76539a">FROM SKYLA'S KITCHEN</span><button class="close" data-close="detailOverlay" aria-label="Close">×</button></div>
+  <div id="detailContent"></div>
+ </div>
+</div>
+
+
+<div class="overlay" id="loginOverlay" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+ <div class="dialog" style="max-width:440px">
+  <div class="dialog-head"><h2 id="loginTitle">Skyla's private area</h2><button class="close" data-close="loginOverlay" aria-label="Close">×</button></div>
+  <div class="dialog-content">
+   <p style="margin-top:0;color:var(--muted)">Recipe editing is just for Skyla. Enter the owner password to continue.</p>
+   <form id="loginForm">
+    <div class="field"><label for="adminPassword">Owner password</label><input id="adminPassword" type="password" autocomplete="current-password" required placeholder="Enter password"></div>
+    <p class="hint" id="loginError" style="color:#a33e55;display:none">That password doesn't match. Please try again.</p>
+    <div class="form-actions"><button type="button" class="secondary" data-close="loginOverlay">Cancel</button><button class="primary" type="submit">Continue</button></div>
+   </form>
+  </div>
+ </div>
+</div>
+
+<div class="overlay" id="manageOverlay" role="dialog" aria-modal="true" aria-labelledby="manageTitle">
+ <div class="dialog">
+  <div class="dialog-head"><h2 id="manageTitle">Your recipe book</h2><button class="close" data-close="manageOverlay" aria-label="Close">×</button></div>
+  <div class="dialog-content">
+   <p style="margin-top:0;color:var(--muted)">Welcome back, Skyla. Add and organise your recipes here, then export the collection when you're ready to update the family website.</p>
+   <div style="display:grid;gap:10px">
+    <button class="primary" id="manageAdd">＋ Add a new recipe</button>
+    <button class="secondary" id="exportBtn">↓ Export recipe book (backup / publish)</button>
+    <label class="secondary" style="text-align:center;cursor:pointer">↑ Import recipe book <input id="importFile" type="file" accept="application/json,.json" hidden></label>
+    <button class="secondary" id="shareSiteBtn">Share this website</button>
+    <button class="secondary" id="logoutBtn">Log out of owner area</button>
+   </div>
+   <p class="hint" style="margin:16px 0 0">Tip: Export a backup regularly. For a family website hosted on GitHub Pages, upload the exported <b>recipes.json</b> to the repository to publish the latest changes.</p>
+  </div>
+ </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/*
+  SKYLA'S RECIPE BOOK
+  Easy editing: recipes can be added in the website's "Manage recipes" area.
+  Browser storage is local to this device. Export/import recipes.json to back up
+  or publish the collection to GitHub Pages. See README.md for details.
+*/
+const STARTER_RECIPES = [
+ {id:"chicken-bacon-alfredo",name:"Creamy Chicken Bacon Alfredo",category:"Dinner",time:"",description:"A cosy, creamy pasta dish with chicken, bacon and plenty of cheese.",photo:"creamy-chicken-bacon-alfredo.webp",ingredients:["2 cups shredded rotisserie chicken","8 ounces freshly shredded Monterey Jack cheese","3 ounces cream cheese","½ package ranch seasoning","Salt, to taste","Pepper, to taste","Onion powder, to taste","2 cups cooked noodles","¾ cup chopped cooked bacon","2 ounces mild cheddar cheese","1 jar Alfredo sauce"],method:[]}
+];
+const STORE_KEY="skyla-recipe-book-v2";
+let recipes=loadRecipes(), activeCategory="All recipes", editingId=null, pendingPhoto="";
+const hasLocalBook=!!localStorage.getItem(STORE_KEY);
+function loadRecipes(){
+ try{const saved=localStorage.getItem(STORE_KEY);if(saved)return JSON.parse(saved)}catch(e){}
+ return [...STARTER_RECIPES];
+}
+function persist(){try{localStorage.setItem(STORE_KEY,JSON.stringify(recipes));return true}catch(e){toast("Storage is full. Export your book and use smaller photos.");return false}}
+function esc(s=""){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.style.display="block";clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.style.display="none",2800)}
+function open(id){document.getElementById(id).classList.add("open");document.body.style.overflow="hidden"}
+function close(id){document.getElementById(id).classList.remove("open");if(!document.querySelector(".overlay.open"))document.body.style.overflow=""}
+function categories(){const names=["All recipes",...new Set(recipes.map(r=>r.category||"Other").filter(Boolean))];const el=document.getElementById("categories");el.innerHTML=names.map(n=>`<button class="chip ${activeCategory===n?"active":""}" data-category="${esc(n)}">${esc(n)}</button>`).join("");}
+function render(){
+ categories();
+ const q=document.getElementById("search").value.trim().toLowerCase();
+ const filtered=recipes.filter(r=>(activeCategory==="All recipes"||r.category===activeCategory)&&[r.name,r.category,r.description,...(r.ingredients||[])].join(" ").toLowerCase().includes(q));
+ document.getElementById("sectionTitle").textContent=activeCategory;
+ document.getElementById("recipeCount").textContent=`${filtered.length} ${filtered.length===1?"recipe":"recipes"}`;
+ const grid=document.getElementById("recipeGrid");
+ if(!filtered.length){grid.className="";grid.innerHTML=`<div class="empty"><strong>No recipes found</strong>Try another search, or add a new recipe to your collection.</div>`;return}
+ grid.className="grid";
+ grid.innerHTML=filtered.map(r=>`<article class="recipe-card">
+  <div class="recipe-image">${r.photo?`<img src="${r.photo}" alt="${esc(r.name)}" loading="lazy">`:"♡"}</div>
+  <div class="recipe-body"><div class="recipe-meta"><span class="recipe-category">${esc(r.category||"Other")}</span><span>${esc(r.time||"")}</span></div>
+  <h3>${esc(r.name)}</h3><p class="recipe-desc">${esc(r.description||"A recipe from Skyla's kitchen.")}</p>
+  <div class="card-bottom"><small>${(r.ingredients||[]).length} ingredients</small><button class="text-btn" data-view="${esc(r.id)}">View recipe →</button></div></div></article>`).join("");
+}
+function showEditor(id=null){
+ editingId=id;pendingPhoto="";document.getElementById("recipeForm").reset();document.getElementById("photoPreview").style.display="none";document.getElementById("deleteBtn").style.display=id?"inline-block":"none";
+ const r=recipes.find(x=>x.id===id);
+ document.getElementById("editorTitle").textContent=id?"Edit recipe":"Add a recipe";
+ if(r){document.getElementById("recipeName").value=r.name;document.getElementById("recipeCategory").value=r.category||"Other";document.getElementById("recipeTime").value=r.time||"";document.getElementById("recipeDescription").value=r.description||"";document.getElementById("recipeIngredients").value=(r.ingredients||[]).join("\n");document.getElementById("recipeMethod").value=(r.method||[]).join("\n");pendingPhoto=r.photo||"";if(pendingPhoto){const p=document.getElementById("photoPreview");p.src=pendingPhoto;p.style.display="block"}}
+ close("manageOverlay");open("editorOverlay");
+}
+document.getElementById("recipePhoto").addEventListener("change",e=>{const f=e.target.files[0];if(!f)return;if(f.size>3*1024*1024){toast("Please choose a photo smaller than 3 MB.");e.target.value="";return}const reader=new FileReader();reader.onload=()=>{pendingPhoto=reader.result;const p=document.getElementById("photoPreview");p.src=pendingPhoto;p.style.display="block"};reader.readAsDataURL(f)});
+document.getElementById("recipeForm").addEventListener("submit",e=>{
+ e.preventDefault();const name=document.getElementById("recipeName").value.trim();const old=recipes.find(r=>r.id===editingId);if(!pendingPhoto){toast("Please add a picture for this recipe.");return}
+ const item={id:editingId||("recipe-"+Date.now()),name,category:document.getElementById("recipeCategory").value,time:document.getElementById("recipeTime").value.trim(),description:document.getElementById("recipeDescription").value.trim(),photo:pendingPhoto,ingredients:document.getElementById("recipeIngredients").value.split("\n").map(x=>x.trim()).filter(Boolean),method:document.getElementById("recipeMethod").value.split("\n").map(x=>x.trim()).filter(Boolean)};
+ if(old)recipes=recipes.map(r=>r.id===editingId?item:r);else recipes.unshift(item);
+ if(persist()){close("editorOverlay");render();toast(old?"Recipe updated":"Recipe added to your book")}
+});
+document.getElementById("deleteBtn").addEventListener("click",()=>{if(!editingId||!confirm("Delete this recipe?"))return;recipes=recipes.filter(r=>r.id!==editingId);persist();close("editorOverlay");render();toast("Recipe deleted")});
+function showDetail(id){
+ const r=recipes.find(x=>x.id===id);if(!r)return;
+ const ingredients=(r.ingredients||[]).map(x=>`<li>${esc(x)}</li>`).join("");
+ const method=(r.method||[]).map(x=>`<li>${esc(x)}</li>`).join("");
+ document.getElementById("detailContent").innerHTML=`${r.photo?`<img class="detail-photo" src="${r.photo}" alt="${esc(r.name)}">`:""}
+ <div class="detail-content"><div class="recipe-meta"><span class="recipe-category">${esc(r.category||"Other")}</span><span>${esc(r.time||"")}</span></div><h2>${esc(r.name)}</h2><p class="detail-description">${esc(r.description||"A recipe from Skyla's kitchen.")}</p>
+ <div class="detail-columns"><section><h3>Ingredients</h3><ul>${ingredients}</ul></section><section><h3>Method</h3>${method?`<ol>${method}</ol>`:"<p style='color:var(--muted)'>Cooking directions haven't been added yet.</p>"}</section></div>
+ <div class="detail-actions"><button class="primary" id="shareRecipe">Share this recipe</button><button class="secondary" id="editRecipe">Edit recipe</button></div></div>`;
+ open("detailOverlay");
+ document.getElementById("shareRecipe").onclick=()=>shareRecipe(r);
+ document.getElementById("editRecipe").onclick=()=>{close("detailOverlay");showEditor(r.id)};
+ if(location.hash!=="#recipe="+encodeURIComponent(id))history.replaceState(null,"","#recipe="+encodeURIComponent(id));
+}
+async function shareRecipe(r){
+ const url=location.href.split("#")[0]+"#recipe="+encodeURIComponent(r.id);
+ const text=`${r.name} — Skyla's Kitchen\n${url}`;
+ try{if(navigator.share)await navigator.share({title:r.name,text,url});else{await navigator.clipboard.writeText(text);toast("Recipe link copied")}}catch(e){if(e.name!=="AbortError")toast("Couldn't share automatically. Copy the page address.")}}
+document.getElementById("recipeGrid").addEventListener("click",e=>{const b=e.target.closest("[data-view]");if(b)showDetail(b.dataset.view)});
+document.getElementById("categories").addEventListener("click",e=>{const b=e.target.closest("[data-category]");if(b){activeCategory=b.dataset.category;render()}});
+document.getElementById("search").addEventListener("input",render);
+// OWNER ACCESS
+// Change this password before publishing. This client-side gate discourages casual
+// access only; it is NOT secure authentication because static site source is public.
+// For real private access, connect a server-side auth/database service.
+const OWNER_PASSWORD = "lilfuck";
+let ownerSession = false;
+document.getElementById("manageBtn").onclick=()=>{
+ if(ownerSession){open("manageOverlay");return}
+ document.getElementById("adminPassword").value="";
+ document.getElementById("loginError").style.display="none";
+ open("loginOverlay");
+};
+document.getElementById("loginForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ if(document.getElementById("adminPassword").value===OWNER_PASSWORD){
+   ownerSession=true;close("loginOverlay");open("manageOverlay");
+   toast("Welcome, Skyla");
+ } else {
+   document.getElementById("loginError").style.display="block";
+ }
+});
+document.getElementById("manageAdd").onclick=()=>showEditor();
+document.getElementById("logoutBtn").onclick=()=>{ownerSession=false;close("manageOverlay");toast("Logged out")};
+document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>close(b.dataset.close));
+document.querySelectorAll(".overlay").forEach(o=>o.addEventListener("click",e=>{if(e.target===o)close(o.id)}));
+document.getElementById("exportBtn").onclick=()=>{
+ const blob=new Blob([JSON.stringify(recipes,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="recipes.json";a.click();URL.revokeObjectURL(a.href);toast("Recipe book exported");
+};
+document.getElementById("importFile").addEventListener("change",async e=>{
+ const f=e.target.files[0];if(!f)return;try{const data=JSON.parse(await f.text());if(!Array.isArray(data)||!data.every(r=>r.name&&Array.isArray(r.ingredients)))throw Error("Invalid recipe file");if(!confirm(`Import ${data.length} recipes? This replaces the recipes saved in this browser.`))return;recipes=data;persist();render();close("manageOverlay");toast("Recipe book imported")}catch(err){toast("That file doesn't look like a recipe book")}e.target.value="";
+});
+document.getElementById("shareSiteBtn").onclick=async()=>{try{if(navigator.share)await navigator.share({title:"Skyla's Kitchen",url:location.href});else{await navigator.clipboard.writeText(location.href);toast("Website link copied")}}catch(e){if(e.name!=="AbortError")toast("Copy the website address from your browser")}};
+async function initialiseBook(){
+ // On a fresh browser, load the published collection from recipes.json.
+ // A locally edited book takes priority until the user imports/publishes a new copy.
+ if(!hasLocalBook){
+   try{const response=await fetch("recipes.json",{cache:"no-store"});if(response.ok){const data=await response.json();if(Array.isArray(data)&&data.every(r=>r.name&&Array.isArray(r.ingredients)))recipes=data;}}
+   catch(e){/* Opening index.html directly may not allow fetch; starter recipe remains available. */}
+ }
+ render();
+ if(location.hash.startsWith("#recipe=")){const id=decodeURIComponent(location.hash.slice(8));if(recipes.some(r=>r.id===id))showDetail(id)}
+}
+initialiseBook();
+</script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+[
+  {
+    "id": "chicken-bacon-alfredo",
+    "name": "Creamy Chicken Bacon Alfredo",
+    "category": "Dinner",
+    "time": "",
+    "description": "A cosy, creamy pasta dish with chicken, bacon and plenty of cheese.",
+    "photo": "creamy-chicken-bacon-alfredo.webp",
+    "ingredients": [
+      "2 cups shredded rotisserie chicken",
+      "8 ounces freshly shredded Monterey Jack cheese",
+      "3 ounces cream cheese",
+      "½ package ranch seasoning",
+      "Salt, to taste",
+      "Pepper, to taste",
+      "Onion powder, to taste",
+      "2 cups cooked noodles",
+      "¾ cup chopped cooked bacon",
+      "2 ounces mild cheddar cheese",
+      "1 jar Alfredo sauce"
+    ],
+    "method": []
+  }
+]
