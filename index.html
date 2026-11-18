@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#4d326d">
-<meta name="description" content="A collection of much-loved recipes from Skiila's kitchen, shared with family and friends.">
-<title>Skiila's Kitchen | Family Recipe Book</title>
+<meta name="description" content="A collection of much-loved recipes from Skii-la's kitchen, shared with family and friends.">
+<title>Skii-la's Kitchen | Family Recipe Book</title>
 <style>
 :root{--ink:#282331;--muted:#756d7e;--purple:#563779;--purple2:#76539a;--lav:#f1eaf7;--lav2:#faf7fc;--line:#e9e1ef;--white:#fff;--rose:#f8edf3;--shadow:0 12px 36px rgba(50,31,68,.08);--radius:20px}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#fcfbfd;color:var(--ink);font:16px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
@@ -37,7 +37,7 @@ footer{border-top:1px solid var(--line);text-align:center;padding:24px;color:#82
 <body>
 <header class="site-header">
   <div class="topbar">
-    <a class="brand" href="#" aria-label="Skiila's Kitchen home"><span class="brand-mark">S</span><span class="brand-name">Skiila's Kitchen<span class="brand-sub">The family recipe book</span></span></a>
+    <a class="brand" href="#" aria-label="Skii-la's Kitchen home"><span class="brand-mark">S</span><span class="brand-name">Skii-la's Kitchen<span class="brand-sub">The family recipe book</span></span></a>
     <div class="top-actions"><button id="manageBtn" type="button">Owner login</button></div>
   </div>
   <div class="hero">
@@ -55,13 +55,13 @@ footer{border-top:1px solid var(--line);text-align:center;padding:24px;color:#82
   <div class="section-head"><h2 id="sectionTitle">All recipes</h2><span class="count" id="recipeCount"></span></div>
   <div id="recipeGrid" class="grid"></div>
 </main>
-<footer>Made with love in Skiila's kitchen <span aria-hidden="true">♡</span> · A family recipe collection</footer>
+<footer>Made with love in Skii-la's kitchen <span aria-hidden="true">♡</span> · A family recipe collection</footer>
 
 <div class="overlay" id="editorOverlay" role="dialog" aria-modal="true" aria-labelledby="editorTitle">
  <div class="dialog">
   <div class="dialog-head"><h2 id="editorTitle">Add a recipe</h2><button class="close" data-close="editorOverlay" aria-label="Close">×</button></div>
   <div class="dialog-content">
-   <div class="admin-note">Owner area: only Skiila should use these tools. Recipes are saved in this browser. Export the recipe book to back it up and publish changes to the family website.</div>
+   <div class="admin-note">Owner area: only Skii-la should use these tools. Recipes are saved in this browser. Export the recipe book to back it up and publish changes to the family website.</div>
    <form id="recipeForm">
     <div class="form-grid">
      <div class="field full"><label for="recipeName">Recipe name *</label><input id="recipeName" required maxlength="90" placeholder="e.g. Creamy Chicken Bacon Alfredo"></div>
@@ -80,7 +80,7 @@ footer{border-top:1px solid var(--line);text-align:center;padding:24px;color:#82
 
 <div class="overlay" id="detailOverlay" role="dialog" aria-modal="true" aria-label="Recipe details">
  <div class="dialog detail">
-  <div class="dialog-head"><span class="kicker" style="color:#76539a">FROM SKIILA'S KITCHEN</span><button class="close" data-close="detailOverlay" aria-label="Close">×</button></div>
+  <div class="dialog-head"><span class="kicker" style="color:#76539a">FROM SKII-LA'S KITCHEN</span><button class="close" data-close="detailOverlay" aria-label="Close">×</button></div>
   <div id="detailContent"></div>
  </div>
 </div>
@@ -88,9 +88,9 @@ footer{border-top:1px solid var(--line);text-align:center;padding:24px;color:#82
 
 <div class="overlay" id="loginOverlay" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
  <div class="dialog" style="max-width:440px">
-  <div class="dialog-head"><h2 id="loginTitle">Skiila's private area</h2><button class="close" data-close="loginOverlay" aria-label="Close">×</button></div>
+  <div class="dialog-head"><h2 id="loginTitle">Skii-la's private area</h2><button class="close" data-close="loginOverlay" aria-label="Close">×</button></div>
   <div class="dialog-content">
-   <p style="margin-top:0;color:var(--muted)">Recipe editing is just for Skiila. Enter the owner password to continue.</p>
+   <p style="margin-top:0;color:var(--muted)">Recipe editing is just for Skii-la. Enter the owner password to continue.</p>
    <form id="loginForm">
     <div class="field"><label for="adminPassword">Owner password</label><input id="adminPassword" type="password" autocomplete="current-password" required placeholder="Enter password"></div>
     <p class="hint" id="loginError" style="color:#a33e55;display:none">That password doesn't match. Please try again.</p>
@@ -104,7 +104,7 @@ footer{border-top:1px solid var(--line);text-align:center;padding:24px;color:#82
  <div class="dialog">
   <div class="dialog-head"><h2 id="manageTitle">Your recipe book</h2><button class="close" data-close="manageOverlay" aria-label="Close">×</button></div>
   <div class="dialog-content">
-   <p style="margin-top:0;color:var(--muted)">Welcome back, Skiila. Add and organise your recipes here, then export the collection when you're ready to update the family website.</p>
+   <p style="margin-top:0;color:var(--muted)">Welcome back, Skii-la. Add and organise your recipes here, then export the collection when you're ready to update the family website.</p>
    <div style="display:grid;gap:10px">
     <button class="primary" id="manageAdd">＋ Add a new recipe</button>
     <button class="secondary" id="exportBtn">Download recipe updates</button>
@@ -119,7 +119,7 @@ footer{border-top:1px solid var(--line);text-align:center;padding:24px;color:#82
 
 <script>
 /*
-  SKIILA'S RECIPE BOOK
+  SKII-LA'S RECIPE BOOK
   Easy editing: recipes can be added in the website's "Manage recipes" area.
   Browser storage is local to this device. Export/import recipes.json to back up
   or publish the collection to GitHub Pages. See README.md for details.
@@ -127,7 +127,7 @@ footer{border-top:1px solid var(--line);text-align:center;padding:24px;color:#82
 const STARTER_RECIPES = [
  {id:"chicken-bacon-alfredo",name:"Creamy Chicken Bacon Alfredo",category:"Dinner",time:"",description:"A cosy, creamy pasta dish with chicken, bacon and plenty of cheese.",photo:"creamy-chicken-bacon-alfredo.webp",ingredients:["2 cups shredded rotisserie chicken","8 ounces freshly shredded Monterey Jack cheese","3 ounces cream cheese","½ package ranch seasoning","Salt, to taste","Pepper, to taste","Onion powder, to taste","2 cups cooked noodles","¾ cup chopped cooked bacon","2 ounces mild cheddar cheese","1 jar Alfredo sauce"],method:[]}
 ];
-const STORE_KEY="skiila-recipe-book-v2";
+const STORE_KEY="skii-la-recipe-book-v2";
 let recipes=loadRecipes(), activeCategory="All recipes", editingId=null, pendingPhoto="";
 const hasLocalBook=!!localStorage.getItem(STORE_KEY);
 function loadRecipes(){
@@ -152,7 +152,7 @@ function render(){
  grid.innerHTML=filtered.map(r=>`<article class="recipe-card">
   <div class="recipe-image">${r.photo?`<img src="${r.photo}" alt="${esc(r.name)}" loading="lazy">`:"♡"}</div>
   <div class="recipe-body"><div class="recipe-meta"><span class="recipe-category">${esc(r.category||"Other")}</span><span>${esc(r.time||"")}</span></div>
-  <h3>${esc(r.name)}</h3><p class="recipe-desc">${esc(r.description||"A recipe from Skiila's kitchen.")}</p>
+  <h3>${esc(r.name)}</h3><p class="recipe-desc">${esc(r.description||"A recipe from Skii-la's kitchen.")}</p>
   <div class="card-bottom"><small>${(r.ingredients||[]).length} ingredients</small><button class="text-btn" data-view="${esc(r.id)}">View recipe →</button></div></div></article>`).join("");
 }
 function showEditor(id=null){
@@ -176,7 +176,7 @@ function showDetail(id){
  const ingredients=(r.ingredients||[]).map(x=>`<li>${esc(x)}</li>`).join("");
  const method=(r.method||[]).map(x=>`<li>${esc(x)}</li>`).join("");
  document.getElementById("detailContent").innerHTML=`${r.photo?`<img class="detail-photo" src="${r.photo}" alt="${esc(r.name)}">`:""}
- <div class="detail-content"><div class="recipe-meta"><span class="recipe-category">${esc(r.category||"Other")}</span><span>${esc(r.time||"")}</span></div><h2>${esc(r.name)}</h2><p class="detail-description">${esc(r.description||"A recipe from Skiila's kitchen.")}</p>
+ <div class="detail-content"><div class="recipe-meta"><span class="recipe-category">${esc(r.category||"Other")}</span><span>${esc(r.time||"")}</span></div><h2>${esc(r.name)}</h2><p class="detail-description">${esc(r.description||"A recipe from Skii-la's kitchen.")}</p>
  <div class="detail-columns"><section><h3>Ingredients</h3><ul>${ingredients}</ul></section><section><h3>Method</h3>${method?`<ol>${method}</ol>`:"<p style='color:var(--muted)'>Cooking directions haven't been added yet.</p>"}</section></div>
  <div class="detail-actions"><button class="primary" id="shareRecipe">Share this recipe</button>${ownerSession?`<button class="secondary" id="editRecipe">Edit recipe</button>`:""}</div></div>`;
  open("detailOverlay");
@@ -186,7 +186,7 @@ function showDetail(id){
 }
 async function shareRecipe(r){
  const url=location.href.split("#")[0]+"#recipe="+encodeURIComponent(r.id);
- const text=`${r.name} — Skiila's Kitchen\n${url}`;
+ const text=`${r.name} — Skii-la's Kitchen\n${url}`;
  try{if(navigator.share)await navigator.share({title:r.name,text});else{await navigator.clipboard.writeText(text);toast("Recipe link copied")}}catch(e){if(e.name!=="AbortError")toast("Couldn't share automatically. Copy the page address.")}}
 document.getElementById("recipeGrid").addEventListener("click",e=>{const b=e.target.closest("[data-view]");if(b)showDetail(b.dataset.view)});
 document.getElementById("categories").addEventListener("click",e=>{const b=e.target.closest("[data-category]");if(b){activeCategory=b.dataset.category;render()}});
@@ -207,7 +207,7 @@ document.getElementById("loginForm").addEventListener("submit",e=>{
  e.preventDefault();
  if(document.getElementById("adminPassword").value===OWNER_PASSWORD){
    ownerSession=true;close("loginOverlay");open("manageOverlay");
-   toast("Welcome, Skiila");
+   toast("Welcome, Skii-la");
  } else {
    document.getElementById("loginError").style.display="block";
  }
@@ -219,7 +219,7 @@ document.querySelectorAll(".overlay").forEach(o=>o.addEventListener("click",e=>{
 document.getElementById("exportBtn").onclick=()=>{
  const blob=new Blob([JSON.stringify(recipes,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="recipes.json";a.click();URL.revokeObjectURL(a.href);toast("Recipe book exported");
 };
-document.getElementById("shareSiteBtn").onclick=async()=>{try{if(navigator.share)await navigator.share({title:"Skiila's Kitchen",url:location.href});else{await navigator.clipboard.writeText(location.href);toast("Website link copied")}}catch(e){if(e.name!=="AbortError")toast("Copy the website address from your browser")}};
+document.getElementById("shareSiteBtn").onclick=async()=>{try{if(navigator.share)await navigator.share({title:"Skii-la's Kitchen",url:location.href});else{await navigator.clipboard.writeText(location.href);toast("Website link copied")}}catch(e){if(e.name!=="AbortError")toast("Copy the website address from your browser")}};
 async function initialiseBook(){
  // On a fresh browser, load the published collection from recipes.json.
  // A locally edited book takes priority until the user imports/publishes a new copy.
