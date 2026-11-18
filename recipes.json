@@ -2,8 +2,8 @@
   {
     "id": "recipe-1794968592831",
     "name": "The Ultimate Chocolate Chip Cookies 🍪",
-    "category": "Dinner",
-    "time": "Makes 18–20 Cookies",
+    "category": "Dessert",
+    "time": "Makes 18–20 Cookies / 40 Minutes",
     "description": "These are the ultimate homemade chocolate chip cookies: crispy golden edges, soft and chewy centres, buttery flavour and loads of melted chocolate. Perfect with a glass of milk!",
     "photo": "photos/01-recipe-1794968592831.jpg",
     "ingredients": [
@@ -55,7 +55,7 @@
     "id": "chicken-bacon-alfredo",
     "name": "Creamy Chicken Bacon Alfredo",
     "category": "Dinner",
-    "time": "35 Minutes",
+    "time": "Family Of Four / 35 Minutes Cook Time",
     "description": "A cosy, creamy pasta dish with chicken, bacon and plenty of cheese.",
     "photo": "photos/02-chicken-bacon-alfredo.jpg",
     "ingredients": [
