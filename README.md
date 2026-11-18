@@ -1,43 +1,23 @@
-# Skyla's Kitchen — family recipe book
+# Skyla’s Kitchen — family recipe book
 
-A polished, mobile-friendly family recipe website with recipe photos, categories, search, and individual shareable recipe pages.
+A mobile-friendly family recipe website with photos, categories, search, and shareable recipe links.
 
-## Public visitors
-Family and friends can:
-- Browse all published recipes
-- Search by recipe name or ingredient
-- Filter by category
-- Open and share individual recipe links
+## For family and friends
+Visitors can browse, search, open, and share recipes. The Edit recipe control is only shown after the owner has logged in.
 
-There is no public Add Recipe button or public recipe submission form.
+## Skyla’s simple editing steps
+1. Open the family website.
+2. Tap **Owner login** at the top and enter the owner password.
+3. Tap **Add a new recipe** (or open an existing recipe to edit it).
+4. Add a photo, ingredients and directions, then tap **Save recipe**.
+5. When finished, tap **Download recipe updates** and send the downloaded `recipes.json` file to the person who manages the website.
 
-## Skyla's owner area
-The header has one **Owner login** button. Skyla can sign in there to add, edit and delete recipes, upload photos, and export/import the collection.
+The website currently saves edits in the browser and device where Skyla made them. They do not automatically appear on the public family website or sync to another phone/computer. The downloaded `recipes.json` file must replace the old one in the GitHub Pages website before everyone sees the updates.
 
-### Set the owner password before publishing
-1. Open `index.html` in a text editor.
-2. Find `const OWNER_PASSWORD = "CHANGE-THIS-PASSWORD";`
-3. Replace `CHANGE-THIS-PASSWORD` with a password of your choice.
-4. Save and upload the updated `index.html` to GitHub.
+## Important security and ease-of-use note
+This website is hosted as a static GitHub Pages site. Its password check is only a basic front-end screen, not secure authentication: a technically confident visitor could inspect or bypass it. Do not reuse this password for important accounts. Also, because the current version stores edits in one browser, it is not yet a true shared online recipe editor.
 
-**Important security limitation:** This is a static GitHub Pages website. A password checked in browser JavaScript is only a casual deterrent; anyone technically confident can inspect the public source and discover it. It is not secure authentication. For genuinely private owner-only editing, the site needs server-side authentication and a database (for example, Supabase Auth + database/storage). Do not use a valuable password here or store sensitive information.
-
-## How recipes are saved and published
-- Recipes added by Skyla are saved in that browser on that device.
-- Choose **Owner login → Export recipe book** to download `recipes.json`.
-- Upload/replace `recipes.json` in the root of the GitHub repository to publish the latest collection to everyone.
-- To move the collection to another device, use **Import recipe book** and select the latest `recipes.json`.
-
-GitHub Pages is static hosting and does not itself provide a secure shared editor or synchronise browser edits between devices.
+For the genuinely easiest setup for a non-technical owner, the next step is to connect a private sign-in and shared online database. Then Skyla could log in from her phone, add or edit a recipe, and tap Save — with no downloads, file transfers, or GitHub steps.
 
 ## Publish on GitHub Pages
-Upload these files to the repository root:
-- `index.html`
-- `recipes.json`
-
-Then go to **Settings → Pages**, choose **Deploy from a branch**, select `main` and `/ (root)`, and save. Share the published GitHub Pages URL with family and friends.
-
-
-## Owner password and security
-
-The owner password currently set in this version is `lilfuck`. This is a simple front-end gate only: because GitHub Pages serves static files, it is not secure authentication and someone with technical knowledge could inspect or bypass it. Do not reuse this password for any important account.
+Keep `index.html`, `recipes.json`, and the recipe photo file together in the repository root. In GitHub, open **Settings → Pages**, choose **Deploy from a branch**, select `main` and `/ (root)`, then save.

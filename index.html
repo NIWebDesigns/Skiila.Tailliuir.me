@@ -107,12 +107,11 @@ footer{border-top:1px solid var(--line);text-align:center;padding:24px;color:#82
    <p style="margin-top:0;color:var(--muted)">Welcome back, Skyla. Add and organise your recipes here, then export the collection when you're ready to update the family website.</p>
    <div style="display:grid;gap:10px">
     <button class="primary" id="manageAdd">＋ Add a new recipe</button>
-    <button class="secondary" id="exportBtn">↓ Export recipe book (backup / publish)</button>
-    <label class="secondary" style="text-align:center;cursor:pointer">↑ Import recipe book <input id="importFile" type="file" accept="application/json,.json" hidden></label>
-    <button class="secondary" id="shareSiteBtn">Share this website</button>
-    <button class="secondary" id="logoutBtn">Log out of owner area</button>
+    <button class="secondary" id="exportBtn">Download recipe updates</button>
+    <button class="secondary" id="shareSiteBtn">Share the family website</button>
+    <button class="secondary" id="logoutBtn">Log out</button>
    </div>
-   <p class="hint" style="margin:16px 0 0">Tip: Export a backup regularly. For a family website hosted on GitHub Pages, upload the exported <b>recipes.json</b> to the repository to publish the latest changes.</p>
+   <div class="admin-note" style="margin-top:16px"><b>How to put your changes on the family website</b><br>1. Tap “Download recipe updates”.<br>2. Send the downloaded <b>recipes.json</b> file to the person who set up the website.<br>3. They replace the old file on GitHub, and the family sees the new recipes.</div>
   </div>
  </div>
 </div>
@@ -157,6 +156,7 @@ function render(){
   <div class="card-bottom"><small>${(r.ingredients||[]).length} ingredients</small><button class="text-btn" data-view="${esc(r.id)}">View recipe →</button></div></div></article>`).join("");
 }
 function showEditor(id=null){
+ if(!ownerSession){toast("Please log in to edit recipes.");return}
  editingId=id;pendingPhoto="";document.getElementById("recipeForm").reset();document.getElementById("photoPreview").style.display="none";document.getElementById("deleteBtn").style.display=id?"inline-block":"none";
  const r=recipes.find(x=>x.id===id);
  document.getElementById("editorTitle").textContent=id?"Edit recipe":"Add a recipe";
@@ -165,12 +165,12 @@ function showEditor(id=null){
 }
 document.getElementById("recipePhoto").addEventListener("change",e=>{const f=e.target.files[0];if(!f)return;if(f.size>3*1024*1024){toast("Please choose a photo smaller than 3 MB.");e.target.value="";return}const reader=new FileReader();reader.onload=()=>{pendingPhoto=reader.result;const p=document.getElementById("photoPreview");p.src=pendingPhoto;p.style.display="block"};reader.readAsDataURL(f)});
 document.getElementById("recipeForm").addEventListener("submit",e=>{
- e.preventDefault();const name=document.getElementById("recipeName").value.trim();const old=recipes.find(r=>r.id===editingId);if(!pendingPhoto){toast("Please add a picture for this recipe.");return}
+ e.preventDefault();if(!ownerSession){toast("Please log in to edit recipes.");return}const name=document.getElementById("recipeName").value.trim();const old=recipes.find(r=>r.id===editingId);if(!pendingPhoto){toast("Please add a picture for this recipe.");return}
  const item={id:editingId||("recipe-"+Date.now()),name,category:document.getElementById("recipeCategory").value,time:document.getElementById("recipeTime").value.trim(),description:document.getElementById("recipeDescription").value.trim(),photo:pendingPhoto,ingredients:document.getElementById("recipeIngredients").value.split("\n").map(x=>x.trim()).filter(Boolean),method:document.getElementById("recipeMethod").value.split("\n").map(x=>x.trim()).filter(Boolean)};
  if(old)recipes=recipes.map(r=>r.id===editingId?item:r);else recipes.unshift(item);
  if(persist()){close("editorOverlay");render();toast(old?"Recipe updated":"Recipe added to your book")}
 });
-document.getElementById("deleteBtn").addEventListener("click",()=>{if(!editingId||!confirm("Delete this recipe?"))return;recipes=recipes.filter(r=>r.id!==editingId);persist();close("editorOverlay");render();toast("Recipe deleted")});
+document.getElementById("deleteBtn").addEventListener("click",()=>{if(!ownerSession){toast("Please log in to edit recipes.");return}if(!editingId||!confirm("Delete this recipe?"))return;recipes=recipes.filter(r=>r.id!==editingId);persist();close("editorOverlay");render();toast("Recipe deleted")});
 function showDetail(id){
  const r=recipes.find(x=>x.id===id);if(!r)return;
  const ingredients=(r.ingredients||[]).map(x=>`<li>${esc(x)}</li>`).join("");
@@ -178,16 +178,16 @@ function showDetail(id){
  document.getElementById("detailContent").innerHTML=`${r.photo?`<img class="detail-photo" src="${r.photo}" alt="${esc(r.name)}">`:""}
  <div class="detail-content"><div class="recipe-meta"><span class="recipe-category">${esc(r.category||"Other")}</span><span>${esc(r.time||"")}</span></div><h2>${esc(r.name)}</h2><p class="detail-description">${esc(r.description||"A recipe from Skyla's kitchen.")}</p>
  <div class="detail-columns"><section><h3>Ingredients</h3><ul>${ingredients}</ul></section><section><h3>Method</h3>${method?`<ol>${method}</ol>`:"<p style='color:var(--muted)'>Cooking directions haven't been added yet.</p>"}</section></div>
- <div class="detail-actions"><button class="primary" id="shareRecipe">Share this recipe</button><button class="secondary" id="editRecipe">Edit recipe</button></div></div>`;
+ <div class="detail-actions"><button class="primary" id="shareRecipe">Share this recipe</button>${ownerSession?`<button class="secondary" id="editRecipe">Edit recipe</button>`:""}</div></div>`;
  open("detailOverlay");
  document.getElementById("shareRecipe").onclick=()=>shareRecipe(r);
- document.getElementById("editRecipe").onclick=()=>{close("detailOverlay");showEditor(r.id)};
+ const editButton=document.getElementById("editRecipe");if(editButton)editButton.onclick=()=>{close("detailOverlay");showEditor(r.id)};
  if(location.hash!=="#recipe="+encodeURIComponent(id))history.replaceState(null,"","#recipe="+encodeURIComponent(id));
 }
 async function shareRecipe(r){
  const url=location.href.split("#")[0]+"#recipe="+encodeURIComponent(r.id);
  const text=`${r.name} — Skyla's Kitchen\n${url}`;
- try{if(navigator.share)await navigator.share({title:r.name,text,url});else{await navigator.clipboard.writeText(text);toast("Recipe link copied")}}catch(e){if(e.name!=="AbortError")toast("Couldn't share automatically. Copy the page address.")}}
+ try{if(navigator.share)await navigator.share({title:r.name,text});else{await navigator.clipboard.writeText(text);toast("Recipe link copied")}}catch(e){if(e.name!=="AbortError")toast("Couldn't share automatically. Copy the page address.")}}
 document.getElementById("recipeGrid").addEventListener("click",e=>{const b=e.target.closest("[data-view]");if(b)showDetail(b.dataset.view)});
 document.getElementById("categories").addEventListener("click",e=>{const b=e.target.closest("[data-category]");if(b){activeCategory=b.dataset.category;render()}});
 document.getElementById("search").addEventListener("input",render);
@@ -219,9 +219,6 @@ document.querySelectorAll(".overlay").forEach(o=>o.addEventListener("click",e=>{
 document.getElementById("exportBtn").onclick=()=>{
  const blob=new Blob([JSON.stringify(recipes,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="recipes.json";a.click();URL.revokeObjectURL(a.href);toast("Recipe book exported");
 };
-document.getElementById("importFile").addEventListener("change",async e=>{
- const f=e.target.files[0];if(!f)return;try{const data=JSON.parse(await f.text());if(!Array.isArray(data)||!data.every(r=>r.name&&Array.isArray(r.ingredients)))throw Error("Invalid recipe file");if(!confirm(`Import ${data.length} recipes? This replaces the recipes saved in this browser.`))return;recipes=data;persist();render();close("manageOverlay");toast("Recipe book imported")}catch(err){toast("That file doesn't look like a recipe book")}e.target.value="";
-});
 document.getElementById("shareSiteBtn").onclick=async()=>{try{if(navigator.share)await navigator.share({title:"Skyla's Kitchen",url:location.href});else{await navigator.clipboard.writeText(location.href);toast("Website link copied")}}catch(e){if(e.name!=="AbortError")toast("Copy the website address from your browser")}};
 async function initialiseBook(){
  // On a fresh browser, load the published collection from recipes.json.
