@@ -51,7 +51,7 @@ footer{border-top:1px solid var(--line);text-align:center;padding:24px;color:#82
     <div class="kicker">Good food · Lovely memories ♡</div>
     <h1>Recipes made<br>with love. ♡</h1>
     <p>A little collection of my favourite dishes, made with love and shared with family and friends. Find something delicious, make yourself at home, and enjoy! 💕</p>
-    <div class="support-note">Enjoyed a recipe? If you'd like to support my little kitchen, I'd be so grateful. ♡ <button type="button" id="supportBtn" class="support-btn">💕 Support my kitchen</button></div>
+    <div class="support-note">Enjoyed a recipe? If you'd like to support my little kitchen, I'd be so grateful. ♡ <a id="supportBtn" class="support-btn" href="https://revolut.me/skiila42" target="_blank" rel="noopener noreferrer">💕 Support my kitchen</a></div>
   </div>
 </header>
 
@@ -140,23 +140,9 @@ window.addEventListener("beforeunload",e=>{
 });
 function esc(s=""){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.style.display="block";clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.style.display="none",2800)}
-// Add Skii-la's PayPal / Ko-fi / other support page URL here when it is ready.
-const SUPPORT_URL = "https://revolut.me/skiila42";
+// The support button is a normal link so it works even if JavaScript pop-ups are blocked.
 document.getElementById("supportBtn").addEventListener("click",()=>{
- if(!SUPPORT_URL.trim()){
-  toast("Thank you so much for supporting my little kitchen! ♡");
-  return;
- }
- // Open directly inside the click event so browsers are less likely to block it.
- const supportWindow = window.open(SUPPORT_URL, "_blank");
- if(supportWindow){
-  supportWindow.opener = null;
-  toast("Thank you so much for supporting my little kitchen! ♡");
- }else{
-  // If pop-ups are blocked, take the visitor to Revolut in the same tab.
-  toast("Thank you so much! Opening the support page… ♡");
-  window.location.assign(SUPPORT_URL);
- }
+ toast("Thank you so much for supporting my little kitchen! ♡");
 });
 function open(id){document.getElementById(id).classList.add("open");document.body.style.overflow="hidden"}
 function close(id){document.getElementById(id).classList.remove("open");if(!document.querySelector(".overlay.open"))document.body.style.overflow=""}
