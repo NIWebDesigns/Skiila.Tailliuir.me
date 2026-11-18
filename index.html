@@ -38,12 +38,12 @@ footer{border-top:1px solid var(--line);text-align:center;padding:24px;color:#82
 <header class="site-header">
   <div class="topbar">
     <a class="brand" href="#" aria-label="Skii-la's Kitchen home"><span class="brand-mark">S</span><span class="brand-name">Skii-la's Kitchen<span class="brand-sub">The family recipe book</span></span></a>
-    <div class="top-actions"><button id="manageBtn" type="button">Owner login</button></div>
+    <div class="top-actions"><button id="manageBtn" type="button">Owner login ✨</button></div>
   </div>
   <div class="hero">
-    <div class="kicker">Good food · Lovely memories</div>
-    <h1>Recipes worth<br>sharing.</h1>
-    <p>A little collection of the dishes I love making. Browse, find a favourite, and share something delicious with the people you love.</p>
+    <div class="kicker">Good food · Lovely memories ♡</div>
+    <h1>Recipes made<br>with love. ♡</h1>
+    <p>A little collection of my favourite dishes, made with love and shared with family and friends. Find something delicious, make yourself at home, and enjoy! 💕</p>
   </div>
 </header>
 
@@ -61,16 +61,16 @@ footer{border-top:1px solid var(--line);text-align:center;padding:24px;color:#82
  <div class="dialog">
   <div class="dialog-head"><h2 id="editorTitle">Add a recipe</h2><button class="close" data-close="editorOverlay" aria-label="Close">×</button></div>
   <div class="dialog-content">
-   <div class="admin-note">Owner area: only Skii-la should use these tools. Recipes are saved in this browser. Export the recipe book to back it up and publish changes to the family website.</div>
+   <div class="admin-note">This is your little recipe-editing space, Skii-la. 💜 Your changes are saved in this browser. When you are ready, download your recipe book and send it to Matthew so he can update the family website.</div>
    <form id="recipeForm">
     <div class="form-grid">
      <div class="field full"><label for="recipeName">Recipe name *</label><input id="recipeName" required maxlength="90" placeholder="e.g. Creamy Chicken Bacon Alfredo"></div>
      <div class="field"><label for="recipeCategory">Category</label><select id="recipeCategory"><option>Dinner</option><option>Lunch</option><option>Breakfast</option><option>Dessert</option><option>Baking</option><option>Snacks</option><option>Drinks</option><option>Family favourites</option><option>Other</option></select></div>
-     <div class="field"><label for="recipeTime">Prep / cook time</label><input id="recipeTime" placeholder="e.g. 35 minutes"></div>
-     <div class="field full"><label for="recipeDescription">Short description</label><input id="recipeDescription" maxlength="180" placeholder="A quick note about this dish"></div>
-     <div class="field full"><label for="recipePhoto">Recipe picture *</label><input id="recipePhoto" type="file" accept="image/*"><span class="hint">Choose a photo from your phone. The whole picture will show (nothing cropped), and large photos are automatically resized.</span><img id="photoPreview" class="photo-preview" alt="Selected recipe preview"></div>
+     <div class="field"><label for="recipeTime">Preparation / cooking time</label><input id="recipeTime" placeholder="e.g. 35 minutes"></div>
+     <div class="field full"><label for="recipeDescription">A little description</label><input id="recipeDescription" maxlength="180" placeholder="A quick note about this dish"></div>
+     <div class="field full"><label for="recipePhoto">Recipe photo *</label><input id="recipePhoto" type="file" accept="image/*"><span class="hint">Choose a photo from your phone. The whole picture will be shown without cropping, and large photos will be resized automatically. 📸</span><img id="photoPreview" class="photo-preview" alt="Selected recipe preview"></div>
      <div class="field full"><label for="recipeIngredients">Ingredients *</label><textarea id="recipeIngredients" required placeholder="One ingredient per line&#10;2 cups flour&#10;1 tsp vanilla"></textarea></div>
-     <div class="field full"><label for="recipeMethod">Method / directions</label><textarea id="recipeMethod" placeholder="Write the steps in order, one step per line"></textarea></div>
+     <div class="field full"><label for="recipeMethod">Method / instructions</label><textarea id="recipeMethod" placeholder="Write the steps in order, one step per line"></textarea></div>
     </div>
     <div class="form-actions"><div><button type="button" class="danger" id="deleteBtn" style="display:none">Delete recipe</button><button type="button" class="secondary" data-close="editorOverlay">Cancel</button></div><button class="primary" type="submit">Save recipe</button></div>
    </form>
@@ -90,9 +90,9 @@ footer{border-top:1px solid var(--line);text-align:center;padding:24px;color:#82
  <div class="dialog" style="max-width:440px">
   <div class="dialog-head"><h2 id="loginTitle">Skii-la's private area</h2><button class="close" data-close="loginOverlay" aria-label="Close">×</button></div>
   <div class="dialog-content">
-   <p style="margin-top:0;color:var(--muted)">Recipe editing is just for Skii-la. Enter the owner password to continue.</p>
+   <p style="margin-top:0;color:var(--muted)">This little editing space is just for Skii-la. Enter your password to continue. 💗</p>
    <form id="loginForm">
-    <div class="field"><label for="adminPassword">Owner password</label><input id="adminPassword" type="password" autocomplete="current-password" required placeholder="Enter password"></div>
+    <div class="field"><label for="adminPassword">Password</label><input id="adminPassword" type="password" autocomplete="current-password" required placeholder="Enter password"></div>
     <p class="hint" id="loginError" style="color:#a33e55;display:none">That password doesn't match. Please try again.</p>
     <div class="form-actions"><button type="button" class="secondary" data-close="loginOverlay">Cancel</button><button class="primary" type="submit">Continue</button></div>
    </form>
@@ -104,14 +104,13 @@ footer{border-top:1px solid var(--line);text-align:center;padding:24px;color:#82
  <div class="dialog">
   <div class="dialog-head"><h2 id="manageTitle">Your recipe book</h2><button class="close" data-close="manageOverlay" aria-label="Close">×</button></div>
   <div class="dialog-content">
-   <p style="margin-top:0;color:var(--muted)">Welcome back, Skii-la. Add and organise your recipes here, then export the collection when you're ready to update the family website.</p>
+   <p style="margin-top:0;color:var(--muted)">Welcome back, Skii-la! Add your favourite recipes or make a little update, then send your latest recipe book to your sweet boy, Matthew. 💕</p>
    <div style="display:grid;gap:10px">
-    <button class="primary" id="manageAdd">＋ Add a new recipe</button>
-    <button class="secondary" id="exportBtn">Download recipe updates</button>
-    <button class="secondary" id="shareSiteBtn">Share the family website</button>
+    <button class="primary" id="manageAdd">＋ Add a recipe</button>
+    <button class="secondary" id="exportBtn">Download to send to your sweet boy 💌</button>
     <button class="secondary" id="logoutBtn">Log out</button>
    </div>
-   <div class="admin-note" style="margin-top:16px"><b>How to put your changes on the family website</b><br>1. Tap “Download recipe updates”.<br>2. Send the downloaded <b>recipes.json</b> file to the person who set up the website.<br>3. They replace the old file on GitHub, and the family sees the new recipes.</div>
+   <div class="admin-note" style="margin-top:16px"><b>Sending your recipes 💌</b><br>1. Tap “Download to send to your sweet boy”.<br>2. A ZIP file will download with all your recipes and photos inside.<br>3. Send the ZIP file to Matthew, and he will add your updates to the family website.<br><br>That is all you need to do! ♡</div>
   </div>
  </div>
 </div>
@@ -147,7 +146,7 @@ function render(){
  document.getElementById("sectionTitle").textContent=activeCategory;
  document.getElementById("recipeCount").textContent=`${filtered.length} ${filtered.length===1?"recipe":"recipes"}`;
  const grid=document.getElementById("recipeGrid");
- if(!filtered.length){grid.className="";grid.innerHTML=`<div class="empty"><strong>No recipes found</strong>Try another search, or add a new recipe to your collection.</div>`;return}
+ if(!filtered.length){grid.className="";grid.innerHTML=`<div class="empty"><strong>No recipes found ♡</strong>Try another search, or add a new recipe to your collection.`;return}
  grid.className="grid";
  grid.innerHTML=filtered.map(r=>`<article class="recipe-card">
   <div class="recipe-image">${r.photo?`<img src="${r.photo}" alt="${esc(r.name)}" loading="lazy">`:"♡"}</div>
@@ -190,24 +189,25 @@ document.getElementById("recipeForm").addEventListener("submit",e=>{
  if(old)recipes=recipes.map(r=>r.id===editingId?item:r);else recipes.unshift(item);
  if(persist()){close("editorOverlay");render();toast(old?"Recipe updated":"Recipe added to your book")}
 });
-document.getElementById("deleteBtn").addEventListener("click",()=>{if(!ownerSession){toast("Please log in to edit recipes.");return}if(!editingId||!confirm("Delete this recipe?"))return;recipes=recipes.filter(r=>r.id!==editingId);persist();close("editorOverlay");render();toast("Recipe deleted")});
+document.getElementById("deleteBtn").addEventListener("click",()=>{if(!ownerSession){toast("Please log in to edit recipes.");return}if(!editingId||!confirm("Delete this recipe?"))return;recipes=recipes.filter(r=>r.id!==editingId);persist();close("editorOverlay");render();toast("Recipe deleted.")});
 function showDetail(id){
  const r=recipes.find(x=>x.id===id);if(!r)return;
  const ingredients=(r.ingredients||[]).map(x=>`<li>${esc(x)}</li>`).join("");
  const method=(r.method||[]).map(x=>`<li>${esc(x)}</li>`).join("");
  document.getElementById("detailContent").innerHTML=`${r.photo?`<img class="detail-photo" src="${r.photo}" alt="${esc(r.name)}">`:""}
  <div class="detail-content"><div class="recipe-meta"><span class="recipe-category">${esc(r.category||"Other")}</span><span>${esc(r.time||"")}</span></div><h2>${esc(r.name)}</h2><p class="detail-description">${esc(r.description||"A recipe from Skii-la's kitchen.")}</p>
- <div class="detail-columns"><section><h3>Ingredients</h3><ul>${ingredients}</ul></section><section><h3>Method</h3>${method?`<ol>${method}</ol>`:"<p style='color:var(--muted)'>Cooking directions haven't been added yet.</p>"}</section></div>
- <div class="detail-actions"><button class="primary" id="shareRecipe">Share this recipe</button>${ownerSession?`<button class="secondary" id="editRecipe">Edit recipe</button>`:""}</div></div>`;
+ <div class="detail-columns"><section><h3>Ingredients</h3><ul>${ingredients}</ul></section><section><h3>Method</h3>${method?`<ol>${method}</ol>`:"<p style='color:var(--muted)'>The cooking instructions have not been added yet.</p>"}</section></div>
+ <div class="detail-actions"><button class="primary" id="shareRecipe">Share this recipe ♡</button>${ownerSession?`<button class="secondary" id="editRecipe">Edit recipe</button>`:""}</div></div>`;
  open("detailOverlay");
  document.getElementById("shareRecipe").onclick=()=>shareRecipe(r);
  const editButton=document.getElementById("editRecipe");if(editButton)editButton.onclick=()=>{close("detailOverlay");showEditor(r.id)};
  if(location.hash!=="#recipe="+encodeURIComponent(id))history.replaceState(null,"","#recipe="+encodeURIComponent(id));
 }
 async function shareRecipe(r){
- const url=location.href.split("#")[0]+"#recipe="+encodeURIComponent(r.id);
- const text=`${r.name} — Skii-la's Kitchen\n${url}`;
- try{if(navigator.share)await navigator.share({title:r.name,text});else{await navigator.clipboard.writeText(text);toast("Recipe link copied")}}catch(e){if(e.name!=="AbortError")toast("Couldn't share automatically. Copy the page address.")}}
+ // Share a direct link to this recipe in the family recipe book.
+ const slug=String(r.id||r.name).toLowerCase().replace(/[^a-z0-9-]+/g,"-").replace(/^-|-$/g,"");
+ const url=new URL(`${location.pathname}#recipe=${encodeURIComponent(r.id)}`,location.origin).href;
+ try{if(navigator.share)await navigator.share({title:r.name,url});else{await navigator.clipboard.writeText(url);toast("Recipe link copied. Ready to share! 💌")}}catch(e){if(e.name!=="AbortError")toast("Couldn't share automatically. Copy the recipe link.")}}
 document.getElementById("recipeGrid").addEventListener("click",e=>{const b=e.target.closest("[data-view]");if(b)showDetail(b.dataset.view)});
 document.getElementById("categories").addEventListener("click",e=>{const b=e.target.closest("[data-category]");if(b){activeCategory=b.dataset.category;render()}});
 document.getElementById("search").addEventListener("input",render);
@@ -227,7 +227,7 @@ document.getElementById("loginForm").addEventListener("submit",e=>{
  e.preventDefault();
  if(document.getElementById("adminPassword").value===OWNER_PASSWORD){
    ownerSession=true;close("loginOverlay");open("manageOverlay");
-   toast("Welcome, Skii-la");
+   toast("Welcome back, Skii-la! 💜");
  } else {
    document.getElementById("loginError").style.display="block";
  }
@@ -236,10 +236,33 @@ document.getElementById("manageAdd").onclick=()=>showEditor();
 document.getElementById("logoutBtn").onclick=()=>{ownerSession=false;close("manageOverlay");toast("Logged out")};
 document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>close(b.dataset.close));
 document.querySelectorAll(".overlay").forEach(o=>o.addEventListener("click",e=>{if(e.target===o)close(o.id)}));
-document.getElementById("exportBtn").onclick=()=>{
- const blob=new Blob([JSON.stringify(recipes,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="recipes.json";a.click();URL.revokeObjectURL(a.href);toast("Recipe book exported");
+// Build a standard ZIP in the browser so recipe photos travel with the JSON.
+function crc32(bytes){let c=~0;for(const b of bytes){c^=b;for(let k=0;k<8;k++)c=(c>>>1)^((c&1)?0xedb88320:0)}return (~c)>>>0}
+function u16(n){return [n&255,(n>>>8)&255]}
+function u32(n){return [n&255,(n>>>8)&255,(n>>>16)&255,(n>>>24)&255]}
+function join(parts){const size=parts.reduce((n,p)=>n+p.length,0),out=new Uint8Array(size);let at=0;for(const p of parts){out.set(p,at);at+=p.length}return out}
+async function makeRecipeZip(){
+ const enc=new TextEncoder(), entries=[], exported=recipes.map((r,i)=>({...r}));
+ for(let i=0;i<exported.length;i++){
+  const r=exported[i];let photo=r.photo||"";
+  if(photo.startsWith("data:")){
+   const match=photo.match(/^data:([^;,]+);base64,(.*)$/);
+   if(match){const binary=atob(match[2]),bytes=new Uint8Array(binary.length);for(let j=0;j<binary.length;j++)bytes[j]=binary.charCodeAt(j);const ext=match[1].includes("png")?"png":match[1].includes("webp")?"webp":"jpg";const filename=`photos/${String(i+1).padStart(2,"0")}-${String(r.id||"recipe").replace(/[^a-z0-9-]/gi,"-")}.${ext}`;entries.push([filename,bytes]);r.photo=filename;}
+  }
+ }
+ entries.unshift(["recipes.json",enc.encode(JSON.stringify(exported,null,2))]);
+ let offset=0;const local=[],central=[];
+ for(const [name,data] of entries){const n=enc.encode(name),crc=crc32(data),size=data.length;
+  const lh=new Uint8Array([...u32(0x04034b50),...u16(20),...u16(0),...u16(0),...u16(0),...u16(0),...u32(crc),...u32(size),...u32(size),...u16(n.length),...u16(0),...n]);local.push(lh,data);
+  const ch=new Uint8Array([...u32(0x02014b50),...u16(20),...u16(20),...u16(0),...u16(0),...u16(0),...u16(0),...u32(crc),...u32(size),...u32(size),...u16(n.length),...u16(0),...u16(0),...u16(0),...u16(0),...u32(0),...u32(offset),...n]);central.push(ch);offset+=lh.length+size;
+ }
+ const centralBytes=join(central),end=new Uint8Array([...u32(0x06054b50),...u16(0),...u16(0),...u16(entries.length),...u16(entries.length),...u32(centralBytes.length),...u32(offset),...u16(0)]);
+ return new Blob([join(local),centralBytes,end],{type:"application/zip"});
+}
+document.getElementById("exportBtn").onclick=async()=>{
+ try{const blob=await makeRecipeZip(),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="Skii-las-Recipes-and-Photos.zip";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);toast("Your recipes and photos are together in one ZIP. Send it to Matthew! 💌")}
+ catch(e){toast("Sorry, the download didn't work. Please try again.")}
 };
-document.getElementById("shareSiteBtn").onclick=async()=>{try{if(navigator.share)await navigator.share({title:"Skii-la's Kitchen",url:location.href});else{await navigator.clipboard.writeText(location.href);toast("Website link copied")}}catch(e){if(e.name!=="AbortError")toast("Copy the website address from your browser")}};
 async function initialiseBook(){
  // On a fresh browser, load the published collection from recipes.json.
  // A locally edited book takes priority until the user imports/publishes a new copy.
