@@ -3,6 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Ask browsers not to reuse a stored copy of this page. Hosting/CDN headers can still override this. -->
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta name="theme-color" content="#4d326d">
 <meta name="description" content="A collection of much-loved recipes from Skii-la's kitchen, shared with family and friends.">
 <title>Skii-la's Kitchen | Family Recipe Book</title>
@@ -63,7 +67,7 @@ footer{border-top:1px solid var(--line);text-align:center;padding:24px;color:#82
  <div class="dialog">
   <div class="dialog-head"><h2 id="editorTitle">Add a recipe</h2><button class="close" data-close="editorOverlay" aria-label="Close">×</button></div>
   <div class="dialog-content">
-   <div class="admin-note">This is your little recipe-editing space, Skii-la. 💜 Your changes are saved in this browser. When you are ready, download your recipe book and send it to Matthew so he can update the family website.</div>
+   <div class="admin-note">This is your little recipe-editing space, Skii-la. 💜 The website always starts with the latest recipes online. Any changes you make stay only while this page is open, so download your update and send it to Matthew before closing or refreshing the page.</div>
    <form id="recipeForm">
     <div class="form-grid">
      <div class="field full"><label for="recipeName">Recipe name *</label><input id="recipeName" required maxlength="90" placeholder="e.g. Creamy Chicken Bacon Alfredo"></div>
@@ -108,10 +112,10 @@ footer{border-top:1px solid var(--line);text-align:center;padding:24px;color:#82
   <div class="dialog-content">
    <p style="margin-top:0;color:var(--muted)">Hi Skii-la! Follow these four steps each time you want to update the family recipe book. Matthew will take care of putting your changes on the website. 💕</p>
    <div class="owner-steps">
-    <section class="owner-step"><span class="step-number">1</span><div><h3>Start fresh with the live website</h3><p>Tap this first to clear the old saved copy on this phone and load the recipes that are currently online. <b>Only do this before you start editing.</b></p><button class="primary" id="reloadLiveBtn">Step 1 — Load the current website</button></div></section>
+    <section class="owner-step"><span class="step-number">1</span><div><h3>Start fresh with the live website</h3><p>Tap this first to fetch the latest recipes directly from the live website. Any unsent changes in this open page will be replaced. <b>Only do this before you start editing.</b></p><button class="primary" id="reloadLiveBtn">Step 1 — Load the current website</button></div></section>
     <section class="owner-step"><span class="step-number">2</span><div><h3>Add recipes or make your changes</h3><p>Tap to add a new recipe. To change one, close this panel, open the recipe and tap “Edit recipe”.</p><button class="primary" id="manageAdd">＋ Step 2 — Add a recipe</button></div></section>
     <section class="owner-step"><span class="step-number">3</span><div><h3>Send your website update to your sweet boy 💜</h3><p>First download your update, then send the ZIP file to Matthew in your usual messages. You do not need to open the file.</p><button class="primary" id="exportBtn">Step 3 — Download my update 💌</button></div></section>
-    <section class="owner-step"><span class="step-number">4</span><div><h3>Clear your changes and go back to the live website</h3><p>After Matthew tells you the update is online, tap this button. It clears the saved editing copy on this phone and loads the updated website again. <b>Do not tap until Matthew confirms.</b></p><button class="primary" id="publishedBtn">Step 4 — Clear my updates and reload the website ✓</button></div></section>
+    <section class="owner-step"><span class="step-number">4</span><div><h3>Clear your changes and go back to the live website</h3><p>After Matthew tells you the update is online, tap this button. It fetches the newly published recipes directly from the live website and clears the changes in this open page. <b>Do not tap until Matthew confirms.</b></p><button class="primary" id="publishedBtn">Step 4 — Clear my updates and reload the website ✓</button></div></section>
    </div>
    <div class="owner-footer"><button class="secondary" id="logoutBtn">Log out</button></div>
   </div>
@@ -123,17 +127,15 @@ footer{border-top:1px solid var(--line);text-align:center;padding:24px;color:#82
 /*
   SKII-LA'S RECIPE BOOK
   Recipe content is stored in recipes.json and loaded at runtime.
-  Browser storage is local to this device. Steps 1 and 4 reload the published recipes.json.
+  Recipes are never saved in browser storage. Every fresh visit loads the live recipes.json. Unsent edits exist only in the open page.
 */
-// Recipe content lives in recipes.json. Keep this file limited to website code.
-const STORE_KEY="skii-la-recipe-book-v4";
-let recipes=loadRecipes(), activeCategory="All recipes", editingId=null, pendingPhoto="";
-const hasLocalBook=!!localStorage.getItem(STORE_KEY);
-function loadRecipes(){
- try{const saved=localStorage.getItem(STORE_KEY);if(saved)return JSON.parse(saved)}catch(e){}
- return [];
-}
-function persist(){try{localStorage.setItem(STORE_KEY,JSON.stringify(recipes));return true}catch(e){toast("Storage is full. Export your book and use smaller photos.");return false}}
+// The published recipes.json is the only starting source of truth.
+// Recipe edits stay in memory only and are exported as a ZIP; nothing is saved locally.
+let recipes=[], activeCategory="All recipes", editingId=null, pendingPhoto="", unsentChanges=false;
+function persist(){return true} // Compatibility helper: deliberately does not write to browser storage.
+window.addEventListener("beforeunload",e=>{
+ if(unsentChanges){e.preventDefault();e.returnValue="You have recipe changes that have not been downloaded yet.";return e.returnValue;}
+});
 function esc(s=""){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.style.display="block";clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.style.display="none",2800)}
 function open(id){document.getElementById(id).classList.add("open");document.body.style.overflow="hidden"}
@@ -196,9 +198,9 @@ document.getElementById("recipeForm").addEventListener("submit",e=>{
  e.preventDefault();if(!ownerSession){toast("Please log in to edit recipes.");return}const name=document.getElementById("recipeName").value.trim();const old=recipes.find(r=>r.id===editingId);if(!pendingPhoto){toast("Please add a picture for this recipe.");return}
  const category=matchCategory(document.getElementById("recipeCategory").value);if(!category){toast("Please type a category, like Dinner or Soups.");document.getElementById("recipeCategory").focus();return}const item={id:editingId||String(Math.max(0,...recipes.map(r=>Number(r.id)||0))+1),name,category,time:document.getElementById("recipeTime").value.trim(),description:document.getElementById("recipeDescription").value.trim(),photo:pendingPhoto,ingredients:document.getElementById("recipeIngredients").value.split("\n").map(x=>x.trim()).filter(Boolean),method:document.getElementById("recipeMethod").value.split("\n").map(x=>x.trim()).filter(Boolean)};
  if(old)recipes=recipes.map(r=>r.id===editingId?item:r);else recipes.unshift(item);
- if(persist()){close("editorOverlay");render();toast(old?"Recipe updated":"Recipe added to your book")}
+ if(persist()){unsentChanges=true;close("editorOverlay");render();toast(old?"Recipe updated":"Recipe added to your book")}
 });
-document.getElementById("deleteBtn").addEventListener("click",()=>{if(!ownerSession){toast("Please log in to edit recipes.");return}if(!editingId||!confirm("Delete this recipe?"))return;recipes=recipes.filter(r=>r.id!==editingId);persist();close("editorOverlay");render();toast("Recipe deleted.")});
+document.getElementById("deleteBtn").addEventListener("click",()=>{if(!ownerSession){toast("Please log in to edit recipes.");return}if(!editingId||!confirm("Delete this recipe?"))return;recipes=recipes.filter(r=>r.id!==editingId);persist();unsentChanges=true;close("editorOverlay");render();toast("Recipe deleted.")});
 function showDetail(id){
  const r=recipes.find(x=>x.id===id);if(!r)return;
  const ingredients=(r.ingredients||[]).map(x=>`<li>${esc(x)}</li>`).join("");
@@ -263,18 +265,18 @@ async function clearLocalAndLoadLive(message){
   if(!response.ok)throw new Error("Could not load live recipes");
   const data=await response.json();
   if(!Array.isArray(data)||!data.every(r=>r.name&&Array.isArray(r.ingredients)))throw new Error("Invalid live recipe file");
-  // Replace this device's saved working copy with exactly what is currently online.
-  localStorage.setItem(STORE_KEY,JSON.stringify(data));
+  // Replace the in-memory working copy with exactly what is currently online.
   recipes=data;
+  unsentChanges=false;
   activeCategory="All recipes";
   document.getElementById("search").value="";
   render();
   close("manageOverlay");
-  toast("All done! This phone is now showing the live website recipes. 💜");
+  toast("All done! This page is now showing the live website recipes. 💜");
  }catch(e){console.error(e);toast("Couldn't load the live website. Your saved recipes have not been cleared. Please try again.");}
 }
-document.getElementById("reloadLiveBtn").onclick=()=>clearLocalAndLoadLive("This clears the saved copy on this phone and replaces it with the recipes currently online. Only do this before editing, or after Matthew confirms your update is live. Any changes not yet sent to Matthew will be lost. Continue?");
-document.getElementById("publishedBtn").onclick=()=>clearLocalAndLoadLive("Has Matthew confirmed that your update is online? This will clear your local editing copy and reload the live recipes. Do not continue unless he has confirmed.");
+document.getElementById("reloadLiveBtn").onclick=()=>clearLocalAndLoadLive("This replaces the recipes in this open page with the latest recipes online. Any changes not yet downloaded and sent to Matthew will be lost. Continue?");
+document.getElementById("publishedBtn").onclick=()=>clearLocalAndLoadLive("Has Matthew confirmed that your update is online? This replaces the recipes in this page with the newly published live recipes. Do not continue unless he has confirmed.");
 document.getElementById("logoutBtn").onclick=()=>{ownerSession=false;close("manageOverlay");toast("Logged out")};
 document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>close(b.dataset.close));
 document.querySelectorAll(".overlay").forEach(o=>o.addEventListener("click",e=>{if(e.target===o)close(o.id)}));
@@ -327,29 +329,31 @@ async function makeRecipeZip(){
  return new Blob([join(local),centralBytes,end],{type:"application/zip"});
 }
 document.getElementById("exportBtn").onclick=async()=>{
- try{const blob=await makeRecipeZip(),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="Skii-las-Recipe-Updates.zip";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);toast("Your recipe update ZIP is ready. Send it to Matthew! 💌")}
+ try{const blob=await makeRecipeZip(),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="Skii-las-Recipe-Updates.zip";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);unsentChanges=false;toast("Your recipe update ZIP is ready. Send it to Matthew! 💌")}
  catch(e){console.error(e);toast("Sorry, the download didn't work. Please try again.")}
 };
 /* Step 4 returns this phone to the live website using clearLocalAndLoadLive above. */
+async function loadLiveRecipes(){
+ const response=await fetch("recipes.json?fresh="+Date.now(),{cache:"no-store"});
+ if(!response.ok)throw new Error("recipes.json could not be loaded");
+ const data=await response.json();
+ if(!Array.isArray(data)||!data.every(r=>r.name&&Array.isArray(r.ingredients)))throw new Error("recipes.json is not valid");
+ return data;
+}
 async function initialiseBook(){
- // Recipe content is loaded from recipes.json on a fresh browser.
- // A locally edited book takes priority until the owner chooses to refresh it.
- if(!hasLocalBook){
-   try{
-     const response=await fetch("recipes.json",{cache:"no-store"});
-     if(!response.ok)throw new Error("recipes.json could not be loaded");
-     const data=await response.json();
-     if(!Array.isArray(data)||!data.every(r=>r.name&&Array.isArray(r.ingredients)))throw new Error("recipes.json is not valid");
-     recipes=data;
-   }catch(e){
-     recipes=[];
-     console.error("Could not load recipes.json:",e);
-     toast("Couldn't load the recipes. Please check that recipes.json is beside index.html.");
-   }
+ // Always fetch the published recipe file. Never read or write local browser storage.
+ try{
+   recipes=await loadLiveRecipes();
+ }catch(e){
+   recipes=[];
+   console.error("Could not load recipes.json:",e);
+   toast("Couldn't load the live recipes. Please check your internet connection and try refreshing.");
  }
  render();
  if(location.hash.startsWith("#recipe=")){const id=decodeURIComponent(location.hash.slice(8));if(recipes.some(r=>r.id===id))showDetail(id)}
 }
+// If the browser restores this page from its back/forward cache, fetch the live book again.
+window.addEventListener("pageshow",e=>{if(e.persisted)initialiseBook()});
 initialiseBook();
 </script>
 </body>
